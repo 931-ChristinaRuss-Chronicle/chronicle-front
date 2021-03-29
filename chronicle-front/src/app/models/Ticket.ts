@@ -12,6 +12,7 @@ export class Ticket{
     ticketStatus:String;
     identifier:String;
     clipUrl:String;
+    rejectComment:String;
 
     constructor(ticketID: number,
         issuerID: number,
@@ -25,7 +26,8 @@ export class Ticket{
         clipID: number,
         ticketStatus:String,
         identifier:String,
-        clipUrl:String
+        clipUrl:String,
+        rejectComment:String
         )   {
             this.ticketID = ticketID;
             this.issuerID = issuerID;
@@ -40,5 +42,6 @@ export class Ticket{
             this.ticketStatus = ticketStatus;
             this.identifier = identifier;
             this.clipUrl =clipUrl;
+            this.rejectComment = rejectComment
         }
 }
