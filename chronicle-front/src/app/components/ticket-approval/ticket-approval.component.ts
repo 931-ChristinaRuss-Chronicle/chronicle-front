@@ -12,8 +12,8 @@ export class TicketApprovalComponent implements OnInit {
   underReviewTickets:Ticket[] =[]
   allSubmittedTickets:Ticket[]=[]
 
-  tempTicket:Ticket = new Ticket(0,0,0,"", "", "", "","", "", 0, "", "", "","");
-  rejectComment:String = "";
+  tempTicket:Ticket = new Ticket(0,'0','0',"", "", "", "","", "", 0, "", "", "","");
+  rejectComment:string = "";
 
   constructor(private ticketService: TicketService) { }
 
@@ -58,7 +58,7 @@ export class TicketApprovalComponent implements OnInit {
     )
   }
 
-  rejectTicket(ticket:Ticket,rejectComment:String){
+  rejectTicket(ticket:Ticket,rejectComment:string){
     ticket.ticketStatus = "IN_PROGRESS";
     ticket.rejectComment = rejectComment;
     this.tempTicket = ticket;

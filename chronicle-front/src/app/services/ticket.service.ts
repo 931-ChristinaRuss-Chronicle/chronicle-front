@@ -10,6 +10,11 @@ export class TicketService {
 
   constructor(private httpClient:HttpClient) { }
 
+  //for trainers
+  submitTickets(tickets:Ticket[]):Observable<Ticket[]>{
+    return this.httpClient.post('',tickets) as Observable<Ticket[]>
+  }
+
   //for editors
   findAllPendingTickets():Observable<Ticket[]>{
     return this.httpClient.get('') as Observable<Ticket[]>
