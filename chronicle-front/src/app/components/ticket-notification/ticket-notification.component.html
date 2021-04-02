@@ -1,24 +1,27 @@
-<div fxLayout="row" fxLayoutAlign="center">
+<div class="page">
+     <!-- Title of the page  -->
+     <h1 class="page-title" fxLayoutAlign="center">Notifications</h1>
+   
 
+
+<div fxLayout="row" fxLayoutAlign="center">
+ 
     <table>
         <thead>
-        <tr>
-            <th>Date</th>
+        <tr class="shadow" >
+            <th style="width:30%">Date</th>
             <th>Message</th>
         </tr>
     </thead>
     <tbody>
-        <tr class="active-row" *ngFor= "let n of notifications" >              
-            <td>{{n.senddate | date: 'shortDate'}}</td>
-            <td>{{n.note'}}</td>
-           
+        <tr class="shadow" *ngFor= "let n of notifications" >              
+            <td style="width:30%" >{{n.senddate | date: 'shortDate'}}</td>
+            <td>{{n.note}}</td>       
         </tr>
-        <!--delete next tr-->
-        <!-- <tr class="active-row" >              
-            <td>08-08-2020</td>
-            <td>Ticket number 5776 was approved</td>
-            
-        </tr> -->
     </tbody>
 </table>
+<!-- <div *ngFor= "let n of notifications" style="width:70%" >
+<div class="shadow"  fxLayoutAlign="center" style="display:block"> something</div><br /><br /> -->
+<!-- </div> -->
+</div>
 </div>
