@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Mock } from 'protractor/built/driverProviders';
 import { Observable, of } from 'rxjs';
 import { Ticket } from 'src/app/models/Ticket';
 import { TicketNotification } from 'src/app/models/TicketNotification';
@@ -9,11 +8,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { TicketNotificationComponent } from './ticket-notification.component';
 
 export class MockNotificationService extends NotificationService{
-  submitNotification(notification:TicketNotification):Observable<TicketNotification>{
-    let mockTicket = new Ticket(1,'1','100',new Date(),new Date(),"java primitives", "1 of 10", "00:45:56", "00:55:56","https://123", "11331345", 234, "ACKNOWLEDGED", "CR 2/26/2021", "","");
-    let mockNotification:Observable<TicketNotification> = of (new TicketNotification(1,'1','2', mockTicket, new Date(0), 'note'))
-    return mockNotification;
-  }
+
 
   findAllByReciever():Observable<TicketNotification[]>{
     let mockTicket = new Ticket(1,'1','100',new Date(),new Date(),"java primitives", "1 of 10", "00:45:56", "00:55:56","https://123", "11331345", 234, "ACKNOWLEDGED", "CR 2/26/2021", "","");
@@ -49,11 +44,6 @@ describe('TicketNotificationComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
-  it('should create a notification in the database', ()=>{
-    component.submitNotification();
-    expect(component.tempNotification.id).toEqual(1);
-  })
 
 
   it('should find all tickets by reciever', ()=>{

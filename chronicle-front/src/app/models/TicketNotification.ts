@@ -2,24 +2,24 @@ import { Ticket } from "./Ticket";
 
 export class TicketNotification{
     id:number;
-    senderid:string;
-    recieverid:string;
-    ticketid:Ticket;
+    senderId:string;
+    receiverId:string;
+    ticket:Ticket;
     senddate:Date;
     note:string;
 
     constructor(
     id:number,
-    senderid:string,
-    recieverid:string,
-    ticketid:Ticket,
+    senderId:string,
+    receiverId:string,
+    ticket:Ticket,
     senddate:Date,
     note:string
     ){
         this.id=id;
-        this.senderid = senderid;
-        this.recieverid = recieverid;
-        this.ticketid = ticketid;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.ticket = ticket;
         this.senddate = senddate;
         this.note = note;
     }

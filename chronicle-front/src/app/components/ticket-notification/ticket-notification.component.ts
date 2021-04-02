@@ -19,22 +19,11 @@ export class TicketNotificationComponent implements OnInit {
 
   notifications:TicketNotification[] = [];
 
-
-  submitNotification() {
-    this.notificationService.submitNotification(this.tempNotification).subscribe(
-      (data)=> {
-        this.tempNotification = data;
-      },
-      ()=>{
-        console.log("error submitting notification");
-      }
-    )
-  }
-
   findAllByReciever(){
     this.notificationService.findAllByReciever().subscribe(
       (data)=>{
         this.notifications = data;
+        console.log(data);
       },
       ()=>{
         console.log("error finding notifications by reciever");
