@@ -7,6 +7,11 @@
     <a mat-tab-link routerLink="/videos" (click)="onClick()" style="height: 66px">Videos</a>
     <a mat-tab-link routerLink="/notes" (click)="onClick()" style="height: 66px">Notes</a>
     <a mat-tab-link routerLink="/upload" style="height: 66px">Upload</a>
+    <a mat-tab-link routerLink="/ticket/submit" *ngIf="!isEditor" style="height: 66px">Submit ticket</a>
+    <a mat-tab-link routerLink="/ticket/approval" *ngIf="!isEditor" style="height: 66px">My tickets</a>
+    <!--For editor-->
+    <a mat-tab-link routerLink="/ticket/view" *ngIf="isEditor" style="height: 66px">Tickets</a>
+    <a mat-tab-link routerLink="/notification" style="height: 66px">Notification</a>
 
     <span class="example-spacer"></span>
 

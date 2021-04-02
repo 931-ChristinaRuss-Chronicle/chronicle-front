@@ -12,6 +12,7 @@ import { ViewnotepageComponent } from './components/viewnotepage/viewnotepage.co
 import { TicketAddComponent } from './components/ticket-add/ticket-add.component';
 import { TicketViewComponent } from './components/ticket-view/ticket-view.component';
 import { TicketApprovalComponent } from './components/ticket-approval/ticket-approval.component';
+import { TicketNotificationComponent } from './components/ticket-notification/ticket-notification.component';
 
 
 
@@ -49,7 +50,11 @@ const routes: Routes = [{
 },{
   path:'ticket/approval',
   component: TicketApprovalComponent, canActivate: [AngularFireAuthGuard]
-}];
+},{
+  path:'notification',
+  component: TicketNotificationComponent, canActivate: [AngularFireAuthGuard]
+}
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -10,7 +10,7 @@
 export const environment = {
   production: true,
   // apiBase: 'http://localhost:8080/myapp',
-  apiBase: 'http://3.236.46.62/api/myapp',
+  apiBase: 'http://34.204.199.170/api/myapp',
   isSignedIn: false,
   firebaseConfig: {
     apiKey: 'AIzaSyC4sxZlT-McTildwtxa8LV1lj7ZQhzOrs0',
@@ -31,7 +31,17 @@ export const environment = {
     getNoteById: '/notes/id/',
     getFirebaseUsers: '/firebase',
     updateWhitelist: '/whitelist/',
-    registerFirebaseUser: '/firebase/register'
+    registerFirebaseUser: '/firebase/register',
+    getPendingTickets: '/ticket/pending',
+    getunderReviewTickets: '/ticket/under-review',
+    getAcceptedTickets: '/ticket/for-editor',
+    getSubmittedTickets: '/ticket/submitted',
+    saveAllTickets: '/ticket/saved',
+    updateTicket: '/ticket/updated',
+    rejectTicket: '/ticket/rejected',
+    approveTicket: '/ticket/accepted',
+    deactivateTicket: '/ticket/deactivated',
+    findAllByReciever: '/ticket/notifications'
   }
 };
 

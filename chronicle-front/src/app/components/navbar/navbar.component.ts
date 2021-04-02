@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -17,12 +18,16 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private mediaRetrievalService: MediaRetrievalService
+    private mediaRetrievalService: MediaRetrievalService,
+    private aAuth: AngularFireAuth, 
+    private userAuth: AuthService
+
   ) {
 
   }
 
   ngOnInit(): void {
+    this.checkUserRole();
     this.authService.User.subscribe(user => {
       this.user = user
     });
@@ -39,4 +44,14 @@ export class NavbarComponent implements OnInit {
     this.mediaRetrievalService.date = undefined;
 
   }
+  isEditor: boolean = false;
+  checkUserRole(){
+    this.aAuth.idTokenResult.subscribe(resp => {
+      if(resp?.claims.role && resp.claims.role.includes("ROLE_EDITOR")){
+        this.isEditor = true;
+      } else {
+        this.isEditor =false;
+      }
+  })
+}
 }

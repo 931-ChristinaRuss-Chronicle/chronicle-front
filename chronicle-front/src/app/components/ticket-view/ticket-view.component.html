@@ -1,1 +1,87 @@
-<p>ticket-view works!</p>
+<div class="page">
+
+<div class="nav_div" fxLayout="row" fxLayoutAlign="center">
+    <nav mat-tab-nav-bar class="shadow">
+        <a class="mini_nav" [style.color]="pendings_nav_color" (click)="toggleDisplayPending(true)">Pendings</a> 
+        <a class="mini_nav">|</a>
+        <a class="mini_nav" [style.color]="accepted_nav_color" (click)="toggleDisplayPending(false)">Accepted</a>
+    </nav>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="center">
+
+    <table *ngIf = "displayPending">
+        <thead>
+            <tr>
+            <th>Ticket ID</th>
+            <th>Date Issued</th>
+            <th>Video</th>
+            <th>Batch</th>
+            <th>Passcode</th>
+            <th>Topic</th>
+            <th>Description</th>
+            <th>Starting Time</th>
+            <th>Ending Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="active-row" *ngFor= "let t of allPendingTickets" >              
+            <td>{{t.ticketID}}</td>
+            <td>{{t.dateIssued | date: 'shortDate'}}<br></td>
+            <td><a href="{{t.zoomLink}}" target="_blank">{{t.zoomLink}}</a></td>
+            <td>{{t.identifier}}</td>
+            <td>{{t.zoomPasscode}}</td>
+            <td>{{t.topic}}</td>
+            <td>{{t.description}}</td>
+            <td>{{t.startTime}}</td>
+            <td>{{t.endTime}}</td>
+            <button mat-flat-button color="primary" (click)="acceptTicket(t)">Accept</button>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="center">
+    <table *ngIf = "!displayPending">
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Date Issued</th>
+                <th>Date Accepted</th>
+                <th>Video</th>
+                <th>Passcode</th>
+                <th>Topic</th>
+                <th>Description</th>
+                <th>Starting Time</th>
+                <th>Ending Time</th>
+                <th>Edited Video</th>
+                <th>In Progress</th>
+                <th>Reason for Rejection</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="active-row" *ngFor= "let t of allMyTickets" >              
+                <td>{{t.ticketID}}</td>
+                <td>{{t.dateIssued | date: 'shortDate'}}<br></td>
+                <td>{{t.dateAccepted | date: 'shortDate'}}<br></td>
+                <td><a href="{{t.zoomlink}}" target="_blank">{{t.identifier}}</a></td>
+                <td>{{t.zoompasscode}}</td>
+                <td>{{t.topic}}</td>
+                <td>{{t.description}}</td>
+                <td>{{t.startTime}}</td>
+                <td>{{t.endTime}}</td>
+                <td>{{t.clipID}}</td>
+                <td>
+                    <input type="checkbox" *ngIf="t.ticketStatus != 'IN_PROGRESS'" (click)="updateTicketStatusToInProgress(t)">
+                    <input type="checkbox" *ngIf="t.ticketStatus == 'IN_PROGRESS'" (click)="updateTicketStatusToAcknowledged(t)" checked=true>
+                </td>
+                <td>{{t.rejectComment}}</td>
+                <td><button mat-flat-button color="primary" (click)="updateTicketStatusToUnderReview(t)">Submit for Review</button></td>
+                <td><button (click)="updateTicketStatusToUnderReview(t)">Deactivate</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</div>

@@ -26,7 +26,17 @@ export const environment = {
     getNoteById: '/notes/id/',
     getFirebaseUsers: '/firebase',
     updateWhitelist: '/whitelist/',
-    registerFirebaseUser: '/firebase/register'
+    registerFirebaseUser: '/firebase/register',
+    getPendingTickets: '/ticket/pending',
+    getunderReviewTickets: '/ticket/under-review',
+    getAcceptedTickets: '/ticket/for-editor',
+    getSubmittedTickets: '/ticket/submitted',
+    saveAllTickets: '/ticket/saved',
+    updateTicket: '/ticket/updated',
+    rejectTicket: '/ticket/rejected',
+    approveTicket: '/ticket/accepted',
+    deactivateTicket: '/ticket/deactivated',
+    findAllByReciever: '/ticket/notifications'
   }
 };
 

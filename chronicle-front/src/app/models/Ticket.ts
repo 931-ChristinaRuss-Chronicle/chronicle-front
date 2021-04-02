@@ -1,35 +1,43 @@
 export class Ticket{
     ticketID: number;
-    issuerID: number;
-    editorID: number;
-    topic:String;
-    description:String;
-    startTime: String;
-    endTime:String;
-    zoomlink:String;
-    zoompasscode:String;
+    issuerID: string;
+    editorID: string;
+    dateIssued:Date;
+    dateAccepted:Date;
+    topic:string;
+    description:string;
+    startTime: string;
+    endTime:string;
+    zoomlink:string;
+    zoompasscode:string;
     clipID: number;
-    ticketStatus:String;
-    identifier:String;
-    clipUrl:String;
+    ticketStatus:string;
+    identifier:string;
+    clipUrl:string;
+    rejectComment:string;
 
     constructor(ticketID: number,
-        issuerID: number,
-        editorID: number,
-        topic:String,
-        description:String,
-        startTime: String,
-        endTime:String,
-        zoomlink:String,
-        zoompasscode:String,
+        issuerID: string,
+        editorID: string,
+        dateIssued:Date,
+        dateAccepted:Date,
+        topic:string,
+        description:string,
+        startTime: string,
+        endTime:string,
+        zoomlink:string,
+        zoompasscode:string,
         clipID: number,
-        ticketStatus:String,
-        identifier:String,
-        clipUrl:String
+        ticketStatus:string,
+        identifier:string,
+        clipUrl:string,
+        rejectComment:string
         )   {
             this.ticketID = ticketID;
             this.issuerID = issuerID;
             this.editorID = editorID;
+            this.dateAccepted = dateAccepted;
+            this.dateIssued = dateIssued;
             this.topic = topic;
             this.description = description;
             this.startTime = startTime;
@@ -40,5 +48,6 @@ export class Ticket{
             this.ticketStatus = ticketStatus;
             this.identifier = identifier;
             this.clipUrl =clipUrl;
+            this.rejectComment = rejectComment
         }
 }

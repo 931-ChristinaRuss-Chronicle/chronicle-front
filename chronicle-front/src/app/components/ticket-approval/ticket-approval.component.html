@@ -1,1 +1,94 @@
-<p>ticket-approval works!</p>
+<div class="page">
+    <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center">
+        <!-- Title of the page  -->
+        <h1 class="page-title">Ticket Approval</h1>
+
+        <div class="nav_div" fxLayout="row" fxLayoutAlign="center">
+            <nav mat-tab-nav-bar class="shadow">
+                <a class="mini_nav" [style.color]="waitingForReview_nav_color" (click)="toggleDisplayPending(true)">Waiting For Review</a> 
+                <a class="mini_nav">|</a>
+                <a class="mini_nav" [style.color]="inProgress_nav_color" (click)="toggleDisplayPending(false)">In Progress</a>
+            </nav>
+        </div>
+
+
+        <div fxLayout="row" fxLayoutAlign="center" id = waitingForReview>
+        <table *ngIf = "displayWaitingForReview">
+                <thead>
+                    <tr>
+                        <td>Ticket ID</td>
+                        <td>Date Issued</td>
+                        <td>Date Accepted</td>
+                        <td>Original Video</td>
+                        <td>Topics</td>
+                        <td>Description</td>
+                        <td>Edited Video</td>
+                        <td>Approve</td>
+                        <td>Reject</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="active-row" *ngFor = "let ticket of underReviewTickets">
+                            <td> {{ticket.ticketID}} <input name="ticket.ticketID" [(ngModel)]="ticket.ticketID" type="hidden"></td>
+                            <td> {{ticket.dateIssued | date: 'shortDate'}} <input name="ticket.dateIssued" [(ngModel)]="ticket.dateIssued" type="hidden"></td>
+                            <td> {{ticket.dateAccepted | date: 'shortDate'}} <input name="ticket.dateAccepted" [(ngModel)]="ticket.dateAccepted" type="hidden"></td>
+                            <td> <a href = "{{ticket.zoomlink}}" target="_blank">{{ticket.zoomlink}}</a> <input name="ticket.zoomlink" [(ngModel)]="ticket.zoomlink" type="hidden"></td>
+                            <td> {{ticket.topic}} <input name="ticket.topic" [(ngModel)]="ticket.topic" type="hidden"></td>
+                            <td> {{ticket.description}} <input name="ticket.description" [(ngModel)]="ticket.description" type="hidden"></td>
+                            <td> <a href = "{{ticket.clipUrl}}" target="_blank">{{ticket.clipUrl}}</a> <input name="ticket.clipUrl" [(ngModel)]="ticket.clipUrl" type="hidden"></td>
+                            <td> <button mat-flat-button color="primary" (click)="approveTicket(ticket)">Approve</button></td>
+
+                            <td>
+                                <form id="comment-form">
+                                    <mat-form-field class ="example-full-width">
+                                        <mat-form-field class="example-full-width">
+                                            <mat-label>Leave a comment</mat-label>
+                                            <textarea matInput name = "rejectComment" [(ngModel)]="ticket.rejectComment" placeholder="Ex. Wrong video..."></textarea><br>
+                                          </mat-form-field>
+                                    </mat-form-field>
+                                   <br> <button mat-flat-button color="primary" type="submit" (click)="rejectTicket(ticket)">Reject with comment</button>
+                                </form>
+                            </td>
+
+                            <!-- <td><button>Reject with comment</button></td>
+                            <td><input name="ticket.rejectComment" [(ngModel)]="ticket.rejectComment"></form></td> -->
+                        </tr>
+                    </tbody>
+                    </table>
+        </div>
+
+
+        <div fxLayout="row" fxLayoutAlign="center" >
+            <table *ngIf = "!displayWaitingForReview">
+                    <thead>
+                        <tr>
+                            <td>Ticket ID</td>
+                            <td>Date Issued</td>
+                            <td>Date Accepted</td>
+                            <td>Original Video</td>
+                            <td>Topics</td>
+                            <td>Description</td>
+                            <td>Status</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="active-row" *ngFor = "let ticket of underReviewTickets">
+                                <td> {{ticket.ticketID}} <input name="ticket.ticketID" [(ngModel)]="ticket.ticketID" type="hidden"></td>
+                                <td> {{ticket.dateIssued | date: 'shortDate'}} <input name="ticket.dateIssued" [(ngModel)]="ticket.dateIssued" type="hidden"></td>
+                                <td> {{ticket.dateAccepted | date: 'shortDate'}} <input name="ticket.dateAccepted" [(ngModel)]="ticket.dateAccepted" type="hidden"></td>
+                                <td> <a href = "{{ticket.zoomlink}}" target="_blank">{{ticket.zoomlink}}</a> <input name="ticket.zoomlink" [(ngModel)]="ticket.zoomlink" type="hidden"></td>
+                                <td> {{ticket.topic}} <input name="ticket.topic" [(ngModel)]="ticket.topic" type="hidden"></td>
+                                <td> {{ticket.description}} <input name="ticket.description" [(ngModel)]="ticket.description" type="hidden"></td>
+                                <td> {{ticket.ticketStatus}} <input name="ticket.ticketStatus" [(ngModel)]="ticket.ticketStatus" type="hidden"></td> 
+                                  
+    
+                                <!-- <td><button>Reject with comment</button></td>
+                                <td><input name="ticket.rejectComment" [(ngModel)]="ticket.rejectComment"></form></td> -->
+                            </tr>
+                        </tbody>
+                        </table>
+            </div>
+
+
+    </div>
+</div>

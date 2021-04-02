@@ -60,6 +60,7 @@ import { EditWhitelistComponent } from './components/edit-whitelist/edit-whiteli
 import { TicketAddComponent } from './components/ticket-add/ticket-add.component';
 import { TicketViewComponent } from './components/ticket-view/ticket-view.component';
 import { TicketApprovalComponent } from './components/ticket-approval/ticket-approval.component';
+import { TicketNotificationComponent } from './components/ticket-notification/ticket-notification.component';
 
 
 
@@ -104,6 +105,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     TicketAddComponent,
     TicketViewComponent,
     TicketApprovalComponent,
+    TicketNotificationComponent,
   ],
   imports: [
     HttpClientModule,
