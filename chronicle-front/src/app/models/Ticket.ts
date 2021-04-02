@@ -8,8 +8,8 @@ export class Ticket{
     description:string;
     startTime: string;
     endTime:string;
-    zoomlink:string;
-    zoompasscode:string;
+    zoomLink:string;
+    zoomPasscode:string;
     clipID: number;
     ticketStatus:string;
     identifier:string;
@@ -25,8 +25,8 @@ export class Ticket{
         description:string,
         startTime: string,
         endTime:string,
-        zoomlink:string,
-        zoompasscode:string,
+        zoomLink:string,
+        zoomPasscode:string,
         clipID: number,
         ticketStatus:string,
         identifier:string,
@@ -42,8 +42,8 @@ export class Ticket{
             this.description = description;
             this.startTime = startTime;
             this.endTime = endTime;
-            this.zoomlink = zoomlink;
-            this.zoompasscode = zoompasscode;
+            this.zoomLink = zoomLink;
+            this.zoomPasscode = zoomPasscode;
             this.clipID = clipID;
             this.ticketStatus = ticketStatus;
             this.identifier = identifier;

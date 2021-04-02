@@ -156,14 +156,14 @@
             <div [hidden]="true">
               <div fxLayoutAlign="center" fxFlexFill>
                 <mat-form-field appearance="outline" class="input-field">
-                  <mat-label for="zoomlink">Zoom link </mat-label>
+                  <mat-label for="zoomLink">Zoom link </mat-label>
                   <input
                     matInput
                     type="text"
                     value="{{ _zoomURL }}"
-                    id="zoomlink"
-                    name="zoomlink"
-                    [(ngModel)]="t.zoomlink"
+                    id="zoomLink"
+                    name="zoomLink"
+                    [(ngModel)]="t.zoomLink"
                     (change)="onZoomUrlWritten($event)"
                   />
                 </mat-form-field>
@@ -178,7 +178,7 @@
                     value="{{ passcode }}"
                     id="passcode"
                     name="passcode"
-                    [(ngModel)]="t.zoompasscode"
+                    [(ngModel)]="t.zoomPasscode"
                   />
                 </mat-form-field>
               </div>
