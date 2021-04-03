@@ -37,13 +37,6 @@ export class TicketService {
     return this.httpClient.post(environment.apiBase + environment.serverApiUrls.updateTicket,ticket) as Observable<Ticket>
   }
 
-<<<<<<< HEAD
-  random()
-  {
-    
-  }
-  
-=======
   //for editors
   findAllTicketsByEditor():Observable<Ticket[]>{
     return this.httpClient.get(environment.apiBase + environment.serverApiUrls.getAcceptedTickets) as Observable<Ticket[]>
@@ -63,5 +56,4 @@ export class TicketService {
   deactivateTicket(ticket:Ticket):Observable<Ticket[]>{
     return this.httpClient.post(environment.apiBase + environment.serverApiUrls.deactivateTicket,ticket) as Observable<Ticket[]>
   }
->>>>>>> 4045d3cc16a2e77fcd61940ee605a4ff563ea79c
 }
