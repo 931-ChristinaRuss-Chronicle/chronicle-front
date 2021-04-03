@@ -3,8 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { Ticket } from 'src/app/models/Ticket';
 import { TicketService } from 'src/app/services/ticket.service';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { TicketAddComponent } from './ticket-add.component';
+import { AppModule } from 'src/app/app.module';
+import { Router } from '@angular/router';
+import * as firebase from 'firebase';
 
 export class MockTicketService extends TicketService{
   submitTickets(tickets:Ticket[]):Observable<Ticket[]>{
@@ -18,15 +21,26 @@ export class MockTicketService extends TicketService{
   
 }
 
+//Fix for : NullInjectorError: No provider for Router!
+//Then this error appear: 
+//FirebaseError: Firebase: Firebase App named '[DEFAULT]' already exists (app/duplicate-app).
+//Mock out Router
+let mockRouter:any;
+    class MockRouter {
+        //noinspection TypeScriptUnresolvedFunction
+        navigate = jasmine.createSpy('navigate');
+    }
+
 describe('TicketAddComponent', () => {
   let component: TicketAddComponent;
   let fixture: ComponentFixture<TicketAddComponent>;
 
   beforeEach(async () => {
+    mockRouter = new MockRouter();
     await TestBed.configureTestingModule({
       declarations: [ TicketAddComponent ],
-      imports:[HttpClientTestingModule],
-      providers:[{provide: TicketService, useClass:MockTicketService}]
+      imports:[HttpClientTestingModule, AppModule], //added AppModule
+      providers:[{provide: TicketService, useClass:MockTicketService},{ provide: Router, useValue: mockRouter }] //added Router
     })
     .compileComponents();
   });

@@ -1,0 +1,14 @@
+.page-title {
+  text-align: center;
+}
+
+.form {
+  width: 190px;
+}
+
+.input-field {
+  min-width: 40%;
+}
+.alert {
+  color: #ee561b;
+}

@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Directive, Input, OnInit } from '@angular/core';
+import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator, ValidatorFn, Validators } from '@angular/forms';
 import { Ticket } from 'src/app/models/Ticket';
 import { AuthService } from 'src/app/services/auth.service';
 import { TicketService } from 'src/app/services/ticket.service';
-
-
 
 @Component({
   selector: 'app-ticket-add',
@@ -25,10 +23,10 @@ description: string = '';
 user:any;
 
 
-//Sofia
 ticket:Ticket  = new Ticket(0,'0','0',new Date(),new Date(),"","","","",this._zoomURL,this.passcode,1,"",this.identifier,"","");
 tickets:Ticket[] = [this.ticket];
 visibility:boolean = true;
+submitted:boolean = true;
  
 
 public get topicCountGetter() {
@@ -88,17 +86,14 @@ public get returnTicketGetter() {
   topicCountIncrementor() {
     if (this.topicCountValidator()) {
       this.tickets.push(new Ticket(0,this.user.uid,'0',new Date(),new Date(),"","","","",this._zoomURL,this.passcode,1,"",this.identifier,"",""))
-    this._topicCount++;} else {
+      this._topicCount++;
+   } else {
       this.visibility = false;
     }
   }
-   //array of tickets
-   //f-n(){
-     //adding new tiket to array
-  // }
 
   topicCountValidator():boolean{
-    if(this._topicCount > 10) return false;
+    if(this._topicCount > 30) return false;
     else return true;
   }
 
@@ -111,6 +106,9 @@ public get returnTicketGetter() {
       (data) => {
         this._returnTickets = data;
         console.log('Successfully submitted tickets.');
+        //refresh page after succsess
+        window.location.reload();
+        this.submitted = false;
       },
       () => {
         console.log('Failure in submitting tickets.');
@@ -123,9 +121,33 @@ public get returnTicketGetter() {
       const index = this.tickets.indexOf(ticket, 0);
       if (index > -1) {
       this.tickets.splice(index, 1);
+      //hide a limit warning
+      this.visibility=true;
   }
 
     }
   }
 
+}
+
+@Directive({
+  selector: '[appZoomUrlValidator]',
+  providers: [{provide: NG_VALIDATORS, useExisting: ZoomUrlValidatorDirective, multi: true}]
+})
+export class ZoomUrlValidatorDirective implements Validator {
+  @Input('appZoomUrlValidator') validatedUrl!: string;
+  zoomUrlValidator(zoomUrl:string):boolean {
+    return zoomUrl.startsWith('https://revature.zoom.us/rec/share');
+  }
+
+  validate(control: AbstractControl): ValidationErrors | null {
+    return !this.validatedUrl ? this.urlValidator(this.validatedUrl)(control): null;
+  }
+
+  urlValidator(url:string): ValidatorFn {
+  return (control: AbstractControl): {[key: string]: any} | null => {
+    const allowedUrl:boolean = control.value.startsWith(url);
+    return !allowedUrl ? {forbiddenName: {value: control.value}} : null;
+  };
+}
 }

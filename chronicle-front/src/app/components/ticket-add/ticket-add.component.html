@@ -1,10 +1,10 @@
 <div class="page">
   <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center">
     <!-- Title of the page  -->
-    <h1 class="page-title">Submit Ticket</h1>
+    <h1 class="page-title" >Submit Ticket</h1>
 
     <!-- Form fields -->
-    <div id="ticket-form">
+    <div id="upload-form">
       <!-- LINK -->
       <div fxLayoutAlign="center" fxFlexFill>
         <mat-form-field appearance="outline" class="input-field">
@@ -18,19 +18,28 @@
             [(ngModel)]="_zoomURL"
             required
             minlength="4"
-            #name="ngModel"
+            appZoomUrlValidator="https://revature.zoom.us/rec/share"
+            #aZoom="ngModel"
           />
-          <div
-            *ngIf="name.invalid && (name.dirty || name.touched)"
-            class="alert alert-danger"
-          >
-            <div *ngIf="name.errors?.required">Link is required.</div>
-            <div *ngIf="name.errors?.minlength">
-              Link must be at least 4 characters long.
-            </div>
-          </div>
         </mat-form-field>
+        <div style="position: absolute; top:123px">
+        <div 
+          *ngIf="aZoom.invalid && (aZoom.dirty || aZoom.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="aZoom.errors?.required">
+            Link is required.</div>
+          <div *ngIf="aZoom.errors?.minlength">
+            
+            Link must be at least 4 characters long.
+          </div>
+          <div *ngIf="aZoom.errors?.appZoomUrlValidator">
+            Please provide a Zoom link.
+          </div>
+        </div>
       </div>
+
+    </div>
 
       <!-- PASSCODE -->
       <div fxLayoutAlign="center" fxFlexFill>
@@ -44,21 +53,22 @@
             [(ngModel)]="passcode"
             required
             minlength="4"
-            #name1="ngModel"
+            #aPasscode="ngModel"
           />
-          <div
-            *ngIf="name1.invalid && (name1.dirty || name1.touched)"
-            class="alert alert-danger"
-          >
-            <div *ngIf="name1.errors?.required">Passcode is required.</div>
-            <div *ngIf="name1.errors?.minlength">
-              Passcode must be at least 4 characters long.
-            </div>
-          </div>
         </mat-form-field>
+        <div style="position: absolute; top:200px">
+        <div
+          *ngIf="aPasscode.invalid && (aPasscode.dirty || aPasscode.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="aPasscode.errors?.required">Passcode is required.</div>
+          <div *ngIf="aPasscode.errors?.minlength">
+            Passcode must be at least 4 characters long.
+          </div>
+        </div>
       </div>
-
-      <!-- Identifier -->
+    </div>
+      <!-- Batch -->
       <div fxLayoutAlign="center" fxFlexFill>
         <mat-form-field appearance="outline" class="input-field">
           <mat-label for="identifier">Batch</mat-label>
@@ -70,26 +80,31 @@
             [(ngModel)]="identifier"
             required
             minlength="4"
-            #name2="ngModel"
+            #aBatch="ngModel"
           />
-          <div
-            *ngIf="name2.invalid && (name2.dirty || name2.touched)"
-            class="alert alert-danger"
-          >
-            <div *ngIf="name2.errors?.required">Batch is required.</div>
-            <div *ngIf="name2.errors?.minlength">
-              Batch must be at least 4 characters long.
-            </div>
-          </div>
         </mat-form-field>
+        <div style="position: absolute; top:280px">
+        <div
+          *ngIf="aBatch.invalid && (aBatch.dirty || aBatch.touched)"
+          class="alert alert-danger"
+        >
+          <div *ngIf="aBatch.errors?.required">Batch is required.</div>
+          <div *ngIf="aBatch.errors?.minlength">
+            Batch must be at least 4 characters long.
+          </div>
+        </div>
       </div>
+    </div>
+     
 
+      <!-- Table for individual clips for same zoom link video-->
+      <div fxLayoutAlign="center" fxFlexFill>
       <table>
         <thead>
           <tr>
             <th>Topic</th>
-            <th>Starting Time</th>
-            <th>Enhing Time</th>
+            <th>Start Time</th>
+            <th>End Time</th>
             <th>Description</th>
           </tr>
         </thead>
@@ -197,11 +212,12 @@
                 </mat-form-field>
               </div>
             </div>
-            <!-- ............................................ -->
+            <!-- Button to delete individual ticket -->
             <td>
               <div fxLayoutAlign="center" fxFlexFill>
                 <button
                   class="upload-button"
+                  style="margin-bottom:  16px; padding: 7px 0;"
                   mat-flat-button
                   color="primary"
                   (click)="deleteTopic(t)"
@@ -213,41 +229,11 @@
           </tr>
         </tbody>
       </table>
+      </div>
 
-      <!-- <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                    <mat-label for="identifier">Identifier</mat-label>
-                    <input matInput type="text" id="identifier" name="identifier" [(ngModel)]="identifier">
-                </mat-form-field>
-            </div>-->
-
-      <!-- TOPICS -->
-      <!-- <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                    <mat-label>Topics</mat-label>
-                    <mat-chip-list #chipList aria-label="Tag selection">
-                        <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (removed)="remove(tag)">
-                            {{tag.value}}
-                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                        </mat-chip>
-                        <input #input placeholder="New topic..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
-                    </mat-chip-list>
-                </mat-form-field>
-            </div>
-
-            
-            <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                    <mat-label for="file-description">Description</mat-label>
-                    <textarea matInput type="text" id="file-description" name="file-description" [(ngModel)]="description"></textarea>
-                </mat-form-field>
-            </div> -->
-
-      <!--(click) = "!topicCountValidator()? topicCountIncrementor(): elseBlock"
--->
 
       <br />
-      <!-- ADD NEW ROW BUTTON -->
+      <!--  BUTTON FOR ADDING NEW ROW  -->
       <div fxLayoutAlign="center" fxFlexFill>
         <button
           class="upload-button"
@@ -261,22 +247,28 @@
 
       <br /><br />
 
-      <!--An error message-->
-      <p style="color: red" [hidden]="visibility">You reached tickets limit</p>
-
+      <!--An error message after you reach limit of 30 clips-->
+      <div fxLayoutAlign="center" fxFlexFill>
+      <p class="alert" [hidden]="visibility">You reached tickets limit</p>
+    </div>
       <!-- SUBMIT BUTTON -->
       <div fxLayoutAlign="center" fxFlexFill>
         <button
           class="upload-button"
           mat-flat-button
           color="primary"
+          [disabled]="!_zoomURL || !identifier || !passcode"
           (click)="submitTickets()"
         >
           Submit
         </button>
       </div>
+      <br/> <br/>
+    <!-- Message on success-->
+      <div [hidden]="submitted" style="color:orange;text-align: center;"> 
+        Ticket(s) submitted successfully.
+    </div>
     </div>
   </div>
 </div>
-<!-- [class.spinner]="sending"
-                        [disabled]="sending || !selectedFiles || !batch "  -->
+

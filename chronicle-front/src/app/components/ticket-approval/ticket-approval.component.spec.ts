@@ -76,7 +76,7 @@ describe('TicketApprovalComponent', () => {
 
   it('should change the status of a ticket to in_progress', () =>{
     let testTicket:Ticket = new Ticket(3,'5','100',new Date(),new Date(),"java class", "4 of 10", "01:45:56", "01:55:56","https://123", "11331345", 234, "PENDING", "CR 2/26/2021", "","");
-    component.rejectTicket(testTicket,"bad clip");
+    component.rejectTicket(testTicket);
     expect(component.tempTicket.ticketStatus).toEqual("IN_PROGRESS");
     expect(component.rejectComment).toEqual("bad clip");
   })
