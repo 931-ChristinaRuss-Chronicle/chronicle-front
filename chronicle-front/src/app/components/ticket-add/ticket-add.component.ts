@@ -9,6 +9,7 @@ import { TicketService } from 'src/app/services/ticket.service';
   templateUrl: './ticket-add.component.html',
   styleUrls: ['./ticket-add.component.css']
 })
+
 export class TicketAddComponent implements OnInit {
  _zoomURL:string ='';
  _topicCount:number = 2;
@@ -22,8 +23,7 @@ endTime: string = '';
 description: string = '';
 user:any;
 
-
-ticket:Ticket  = new Ticket(0,'0','0',new Date(),new Date(),"","","","",this._zoomURL,this.passcode,1,"",this.identifier,"","");
+ticket:Ticket  = new Ticket(0,'0','0',new Date(),new Date(),"","","","",this._zoomURL,this.passcode,0,"pending",this.identifier,"","");
 tickets:Ticket[] = [this.ticket];
 visibility:boolean = true;
 submitted:boolean = true;
@@ -85,7 +85,7 @@ public get returnTicketGetter() {
 
   topicCountIncrementor() {
     if (this.topicCountValidator()) {
-      this.tickets.push(new Ticket(0,this.user.uid,'0',new Date(),new Date(),"","","","",this._zoomURL,this.passcode,1,"",this.identifier,"",""))
+      this.tickets.push(new Ticket(0,this.user.uid,'0',new Date(),new Date(),"","","","",this._zoomURL,this.passcode,0,"pending",this.identifier,"",""))
       this._topicCount++;
    } else {
       this.visibility = false;

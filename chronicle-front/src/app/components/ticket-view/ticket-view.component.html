@@ -12,7 +12,7 @@
 
     <table *ngIf = "displayPending">
         <thead>
-            <tr>
+            <tr class="shadow">
             <th>Ticket ID</th>
             <th>Date Issued</th>
             <th>Video</th>
@@ -22,20 +22,21 @@
             <th>Description</th>
             <th>Starting Time</th>
             <th>Ending Time</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr class="active-row" *ngFor= "let t of allPendingTickets" >              
+        <tr class="shadow" *ngFor= "let t of allPendingTickets" >              
             <td>{{t.ticketID}}</td>
             <td>{{t.dateIssued | date: 'shortDate'}}<br></td>
-            <td><a href="{{t.zoomLink}}" target="_blank">{{t.zoomLink}}</a></td>
+            <td><a href="{{t.zoomLink}}" target="_blank">Download</a></td>
             <td>{{t.identifier}}</td>
             <td>{{t.zoomPasscode}}</td>
             <td>{{t.topic}}</td>
             <td>{{t.description}}</td>
             <td>{{t.startTime}}</td>
             <td>{{t.endTime}}</td>
-            <button mat-flat-button color="primary" (click)="acceptTicket(t)">Accept</button>
+            <td><button mat-flat-button color="primary" (click)="acceptTicket(t)">Accept</button></td>
         </tr>
     </tbody>
 </table>
@@ -44,12 +45,13 @@
 <div fxLayout="row" fxLayoutAlign="center">
     <table *ngIf = "!displayPending">
         <thead>
-            <tr>
+            <tr class="shadow">
                 <th>Ticket ID</th>
                 <th>Date Issued</th>
                 <th>Date Accepted</th>
                 <th>Video</th>
                 <th>Passcode</th>
+                <th>Batch</th>
                 <th>Topic</th>
                 <th>Description</th>
                 <th>Starting Time</th>
@@ -57,29 +59,33 @@
                 <th>Edited Video</th>
                 <th>In Progress</th>
                 <th>Reason for Rejection</th>
-
+                <th *ngIf="hasError" style="color: red; text-align: center; width: 303px;">{{errorMessage}}</th>
+                <th *ngIf="!hasError" style="color: red; text-align: center; width: 303px;"></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="active-row" *ngFor= "let t of allMyTickets" >              
+            <tr class="shadow" *ngFor= "let t of allMyTickets" >              
                 <td>{{t.ticketID}}</td>
                 <td>{{t.dateIssued | date: 'shortDate'}}<br></td>
                 <td>{{t.dateAccepted | date: 'shortDate'}}<br></td>
-                <td><a href="{{t.zoomLink}}" target="_blank">{{t.identifier}}</a></td>
+                <td><a href="{{t.zoomLink}}" target="_blank">Download</a></td>
                 <td>{{t.zoomPasscode}}</td>
+                <td>{{t.identifier}}</td>
                 <td>{{t.topic}}</td>
                 <td>{{t.description}}</td>
                 <td>{{t.startTime}}</td>
                 <td>{{t.endTime}}</td>
-                <td>{{t.clipID}}</td>
+                <td *ngIf="t.clipID != 0"><a href="{{t.clipUrl}}" target="_blank">{{t.clipID}}</a></td>
+                <td *ngIf="t.clipID == 0"><button (click)="linkVideoToTicket(t)">Link Video</button></td>
                 <td>
                     <input type="checkbox" *ngIf="t.ticketStatus != 'IN_PROGRESS'" (click)="updateTicketStatusToInProgress(t)">
                     <input type="checkbox" *ngIf="t.ticketStatus == 'IN_PROGRESS'" (click)="updateTicketStatusToAcknowledged(t)" checked=true>
                 </td>
                 <td>{{t.rejectComment}}</td>
-                <td><button mat-flat-button color="primary" (click)="updateTicketStatusToUnderReview(t)">Submit for Review</button></td>
-                <td><button (click)="updateTicketStatusToUnderReview(t)">Deactivate</button></td>
+                <td style="width: 303px;"><button mat-flat-button color="primary" (click)="updateTicketStatusToUnderReview(t)">Submit for Review</button></td>
+                
             </tr>
+            
         </tbody>
     </table>
 </div>

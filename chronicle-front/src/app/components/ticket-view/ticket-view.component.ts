@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Ticket } from 'src/app/models/Ticket';
+import { Video } from 'src/app/models/Video';
 import { AuthService } from 'src/app/services/auth.service';
+import { MediaRetrievalService } from 'src/app/services/media-retrieval.service';
 import { TicketService } from 'src/app/services/ticket.service';
 
 @Component({
@@ -17,8 +19,6 @@ export class TicketViewComponent implements OnInit {
     this.authService.User.subscribe(user1 => {
       this.user = user1;
     });
-
-    console.log(this.user.uid)
   }
 
   user: any;
@@ -28,6 +28,10 @@ export class TicketViewComponent implements OnInit {
   displayPending:boolean = true;
   pendings_nav_color = "orange";
   accepted_nav_color = "grey";
+  errorMessage:string = "Please make sure the ticket is 'In progress' and have a edited video.";
+  hasError:boolean = false;
+  tempUploadedVideo: any;
+  
 
   toggleDisplayPending(b:boolean){
     this.displayPending = b;
@@ -46,16 +50,9 @@ export class TicketViewComponent implements OnInit {
     this.ticketService.findAllPendingTickets().subscribe(
       (data) => {
         this.allPendingTickets = data;
-        console.log(data)
-        console.log("pending request was successful.");
       },
       () => {
-        let mockTickets:Ticket[] = [
-          new Ticket(1,'1','100',new Date(),new Date(),"java primitives", "1 of 10", "00:45:56", "00:55:56","https://123", "11331345", 234, "PENDING", "CR 2/26/2021", "",""),
-          new Ticket(3,'5','100',new Date(),new Date(),"java interface", "3 of 10", "01:05:56", "01:20:56","https://123", "11331345", 234, "PENDING", "CR 2/26/2021", "",""),
-          new Ticket(3,'5','100',new Date(),new Date(),"java class", "4 of 10", "01:45:56", "01:55:56","https://123", "11331345", 234, "PENDING", "CR 2/26/2021", "","")
-        ];
-        this.allPendingTickets = mockTickets;
+        
       }
     )
   }
@@ -64,14 +61,10 @@ export class TicketViewComponent implements OnInit {
     this.ticketService.findAllTicketsByEditor().subscribe(
       (data) => {
         this.allMyTickets = data;
+        console.log(data)
       },
       () => {
-        let mockTickets:Ticket[] = [
-          new Ticket(6,'1','100',new Date(),new Date(),"java primitives", "1 of 10", "00:45:56", "00:55:56","https://123", "11331345", 234, "IN_PROGRESS", "CR 2/26/2021", "",""),
-          new Ticket(7,'5','100',new Date(),new Date(),"java interface", "3 of 10", "01:05:56", "01:20:56","https://123", "11331345", 234, "ACKNOWLEDGED", "CR 2/26/2021", "",""),
-          new Ticket(8,'5','100',new Date(),new Date(),"java class", "4 of 10", "01:45:56", "01:55:56","https://123", "11331345", 234, "ACKNOWLEDGED", "CR 2/26/2021", "","")
-        ];
-        this.allMyTickets = mockTickets;
+        
       }
     )
   }
@@ -83,24 +76,23 @@ export class TicketViewComponent implements OnInit {
     this.ticketService.updateTicketStatus(ticket).subscribe(
       (data) => {
         console.log("ticket has been updated"+data)
+        this.findAllMyTickets();
       },
       () => {
         console.log("Ticket Update Failed")
+        this.findAllMyTickets();
       }
     )
   }
 
   acceptTicket(ticket:Ticket){
     ticket.ticketStatus = "ACKNOWLEDGED"
-    //handeled by back end?
-    //ticket.editorID = this.user.uid;
     this.ticketService.updateTicketStatus(ticket).subscribe(
       (data) => {
-
-        console.log(this.user.uid)
+        this.findAllPendingTickets()
       },
       () => {
-        console.log("Ticket accept Failed")
+        this.findAllPendingTickets()
       }
     )
   }
@@ -112,39 +104,52 @@ export class TicketViewComponent implements OnInit {
     this.ticketService.updateTicketStatus(ticket).subscribe(
       (data) => {
         console.log("ticket has been updated"+data)
+        this.findAllMyTickets();
       },
       () => {
         console.log("Ticket Update Failed")
+        this.findAllMyTickets();
       }
     )
   }
 
   updateTicketStatusToUnderReview(ticket:Ticket){
-    ticket.ticketStatus = "UNDER_REVIEW"
+    
     this.tempTicket = ticket;
+    
+    if(ticket.ticketStatus == 'IN_PROGRESS' && ticket.clipID != 0){
+      this.displayError(false);
+      ticket.ticketStatus = "UNDER_REVIEW"
+      this.ticketService.updateTicketStatus(ticket).subscribe(
+        (data) => {
+          console.log("ticket has been updated"+data)
+          this.findAllMyTickets();
+        },
+        () => {
+          this.findAllMyTickets();
+        }
+      )
+    }else{
+      this.displayError(true);
+    }
+    
+  }
 
-    this.ticketService.updateTicketStatus(ticket).subscribe(
+  displayError(b:boolean){
+    this.hasError = b;
+  }
+
+  linkVideoToTicket(ticket:Ticket){
+    this.ticketService.updateClipForTicket(ticket).subscribe(
       (data) => {
-        console.log("ticket has been updated"+data)
+        console.log("Ticket updated");
       },
       () => {
-
+        console.log("error");
       }
     )
   }
 
-  updateTicketStatusToDeactivated(ticket:Ticket){
-    ticket.ticketStatus = "DEACTIVATED"
-    this.tempTicket = ticket;
-
-    this.ticketService.updateTicketStatus(ticket).subscribe(
-      (data) => {
-        console.log("ticket has been updated"+data)
-      },
-      () => {
-
-      }
-    )
-  }
+  
 
 }

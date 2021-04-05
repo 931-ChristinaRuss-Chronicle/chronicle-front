@@ -56,4 +56,9 @@ export class TicketService {
   deactivateTicket(ticket:Ticket):Observable<Ticket[]>{
     return this.httpClient.post(environment.apiBase + environment.serverApiUrls.deactivateTicket,ticket) as Observable<Ticket[]>
   }
+
+  //for editors
+  updateClipForTicket(ticket:Ticket): Observable<Ticket>{
+    return this.httpClient.post(environment.apiBase + environment.serverApiUrls.updateClipForTicket, ticket) as Observable<Ticket>;
+  }
 }

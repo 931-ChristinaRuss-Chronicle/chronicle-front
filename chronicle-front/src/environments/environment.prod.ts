@@ -41,7 +41,8 @@ export const environment = {
     rejectTicket: '/ticket/rejected',
     approveTicket: '/ticket/accepted',
     deactivateTicket: '/ticket/deactivated',
-    findAllByReciever: '/ticket/notifications'
+    findAllByReciever: '/ticket/notifications',
+    updateClipForTicket: '/ticket/updated-clip-url'
   }
 };
 
