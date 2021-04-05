@@ -28,15 +28,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr class="shadow" *ngFor = "let ticket of underReviewTickets">
+                        <tr class="shadow" *ngFor = "let ticket of underReviewTickets; let i = index">
                             <td> {{ticket.ticketID}} <input name="ticket.ticketID" [(ngModel)]="ticket.ticketID" type="hidden"></td>
                             <td> {{ticket.dateIssued | date: 'shortDate'}} <input name="ticket.dateIssued" [(ngModel)]="ticket.dateIssued" type="hidden"></td>
                             <td> {{ticket.dateAccepted | date: 'shortDate'}} <input name="ticket.dateAccepted" [(ngModel)]="ticket.dateAccepted" type="hidden"></td>
                             <td> <a href = "{{ticket.zoomLink}}" target="_blank">{{ticket.zoomLink}}</a> <input name="ticket.zoomLink" [(ngModel)]="ticket.zoomLink" type="hidden"></td>
                             <td> {{ticket.topic}} <input name="ticket.topic" [(ngModel)]="ticket.topic" type="hidden"></td>
                             <td> {{ticket.description}} <input name="ticket.description" [(ngModel)]="ticket.description" type="hidden"></td>
-                            <td> <a href = "{{ticket.clipUrl}}" target="_blank">{{ticket.clipUrl}}</a> <input name="ticket.clipUrl" [(ngModel)]="ticket.clipUrl" type="hidden"></td>
-                            <td> <button mat-flat-button color="primary" (click)="approveTicket(ticket)">Approve</button></td>
+                            <td> <a href = "{{ticket.clipUrl}}" target="_blank" (click)="linkedClick(i)">{{ticket.clipUrl}}</a> <input name="ticket.clipUrl" [(ngModel)]="ticket.clipUrl" type="hidden"></td>
+                            <td> <button mat-flat-button color="primary" (click)="approveTicket(ticket,i)">Approve</button></td>
 
                             <td>
                                 <form id="comment-form">
@@ -49,9 +49,6 @@
                                    <br> <button mat-flat-button color="primary" type="submit" (click)="rejectTicket(ticket)">Reject with comment</button>
                                 </form>
                             </td>
-
-                            <!-- <td><button>Reject with comment</button></td>
-                            <td><input name="ticket.rejectComment" [(ngModel)]="ticket.rejectComment"></form></td> -->
                         </tr>
                     </tbody>
                     </table>
@@ -72,7 +69,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr class="shadow" *ngFor = "let ticket of underReviewTickets">
+                            <tr class="shadow" *ngFor = "let ticket of allSubmittedTickets">
                                 <td> {{ticket.ticketID}} <input name="ticket.ticketID" [(ngModel)]="ticket.ticketID" type="hidden"></td>
                                 <td> {{ticket.dateIssued | date: 'shortDate'}} <input name="ticket.dateIssued" [(ngModel)]="ticket.dateIssued" type="hidden"></td>
                                 <td> {{ticket.dateAccepted | date: 'shortDate'}} <input name="ticket.dateAccepted" [(ngModel)]="ticket.dateAccepted" type="hidden"></td>
@@ -80,10 +77,6 @@
                                 <td> {{ticket.topic}} <input name="ticket.topic" [(ngModel)]="ticket.topic" type="hidden"></td>
                                 <td> {{ticket.description}} <input name="ticket.description" [(ngModel)]="ticket.description" type="hidden"></td>
                                 <td> {{ticket.ticketStatus}} <input name="ticket.ticketStatus" [(ngModel)]="ticket.ticketStatus" type="hidden"></td> 
-                                  
-    
-                                <!-- <td><button>Reject with comment</button></td>
-                                <td><input name="ticket.rejectComment" [(ngModel)]="ticket.rejectComment"></form></td> -->
                             </tr>
                         </tbody>
                         </table>

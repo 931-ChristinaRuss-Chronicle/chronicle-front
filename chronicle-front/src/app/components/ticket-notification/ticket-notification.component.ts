@@ -19,7 +19,7 @@ export class TicketNotificationComponent implements OnInit {
     this.findAllByReciever()
     this.authService.User.subscribe(user1 => {
       this.user = user1;
-      console.log(this.user.uid)
+      //console.log(this.user.uid)
     });
   }
 

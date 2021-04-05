@@ -6,7 +6,6 @@ import { Observable, of } from 'rxjs';
 import { Ticket } from 'src/app/models/Ticket';
 import { TicketService } from 'src/app/services/ticket.service';
 import { environment } from 'src/environments/environment';
-
 import { TicketViewComponent } from './ticket-view.component';
 
 export class MockTicketService extends TicketService{
