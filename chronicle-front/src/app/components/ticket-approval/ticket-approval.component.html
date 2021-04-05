@@ -15,20 +15,20 @@
         <div fxLayout="row" fxLayoutAlign="center" id = waitingForReview>
         <table *ngIf = "displayWaitingForReview">
                 <thead>
-                    <tr>
-                        <td>Ticket ID</td>
-                        <td>Date Issued</td>
-                        <td>Date Accepted</td>
-                        <td>Original Video</td>
-                        <td>Topics</td>
-                        <td>Description</td>
-                        <td>Edited Video</td>
-                        <td>Approve</td>
-                        <td>Reject</td>
+                    <tr class="shadow">
+                        <th>Ticket ID</th>
+                        <th>Date Issued</th>
+                        <th>Date Accepted</th>
+                        <th>Original Video</th>
+                        <th>Topics</th>
+                        <th>Description</th>
+                        <th>Edited Video</th>
+                        <th>Approve</th>
+                        <th>Reject</th>
                     </tr>
                     </thead>
                     <tbody>
-                        <tr class="active-row" *ngFor = "let ticket of underReviewTickets">
+                        <tr class="shadow" *ngFor = "let ticket of underReviewTickets">
                             <td> {{ticket.ticketID}} <input name="ticket.ticketID" [(ngModel)]="ticket.ticketID" type="hidden"></td>
                             <td> {{ticket.dateIssued | date: 'shortDate'}} <input name="ticket.dateIssued" [(ngModel)]="ticket.dateIssued" type="hidden"></td>
                             <td> {{ticket.dateAccepted | date: 'shortDate'}} <input name="ticket.dateAccepted" [(ngModel)]="ticket.dateAccepted" type="hidden"></td>
@@ -61,18 +61,18 @@
         <div fxLayout="row" fxLayoutAlign="center" >
             <table *ngIf = "!displayWaitingForReview">
                     <thead>
-                        <tr>
-                            <td>Ticket ID</td>
-                            <td>Date Issued</td>
-                            <td>Date Accepted</td>
-                            <td>Original Video</td>
-                            <td>Topics</td>
-                            <td>Description</td>
-                            <td>Status</td>
+                        <tr class="shadow">
+                            <th>Ticket ID</th>
+                            <th>Date Issued</th>
+                            <th>Date Accepted</th>
+                            <th>Original Video</th>
+                            <th>Topics</th>
+                            <th>Description</th>
+                            <th>Status</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr class="active-row" *ngFor = "let ticket of underReviewTickets">
+                            <tr class="shadow" *ngFor = "let ticket of underReviewTickets">
                                 <td> {{ticket.ticketID}} <input name="ticket.ticketID" [(ngModel)]="ticket.ticketID" type="hidden"></td>
                                 <td> {{ticket.dateIssued | date: 'shortDate'}} <input name="ticket.dateIssued" [(ngModel)]="ticket.dateIssued" type="hidden"></td>
                                 <td> {{ticket.dateAccepted | date: 'shortDate'}} <input name="ticket.dateAccepted" [(ngModel)]="ticket.dateAccepted" type="hidden"></td>

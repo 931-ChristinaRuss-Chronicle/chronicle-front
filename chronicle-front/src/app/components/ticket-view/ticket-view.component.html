@@ -1,10 +1,11 @@
 <div class="page">
 
+<!-- mini nav bar -->
 <div class="nav_div" fxLayout="row" fxLayoutAlign="center">
     <nav mat-tab-nav-bar class="shadow">
-        <a class="mini_nav" [style.color]="pendings_nav_color" (click)="toggleDisplayPending(true)">Pendings</a> 
+        <a class="mini_nav" [style.color]="pendings_nav_color" (click)="toggleDisplayPending(true)" >Pendings</a> 
         <a class="mini_nav">|</a>
-        <a class="mini_nav" [style.color]="accepted_nav_color" (click)="toggleDisplayPending(false)">Accepted</a>
+        <a class="mini_nav" [style.color]="accepted_nav_color" (click)="toggleDisplayPending(false)" >Accepted</a>
     </nav>
 </div>
 
@@ -29,7 +30,7 @@
         <tr class="shadow" *ngFor= "let t of allPendingTickets" >              
             <td>{{t.ticketID}}</td>
             <td>{{t.dateIssued | date: 'shortDate'}}<br></td>
-            <td><a href="{{t.zoomLink}}" target="_blank">Download</a></td>
+            <td><a href="{{t.zoomLink}}" target="_blank">{{t.identifier}}</a></td>
             <td>{{t.identifier}}</td>
             <td>{{t.zoomPasscode}}</td>
             <td>{{t.topic}}</td>
@@ -68,18 +69,18 @@
                 <td>{{t.ticketID}}</td>
                 <td>{{t.dateIssued | date: 'shortDate'}}<br></td>
                 <td>{{t.dateAccepted | date: 'shortDate'}}<br></td>
-                <td><a href="{{t.zoomLink}}" target="_blank">Download</a></td>
+                <td><a href="{{t.zoomLink}}" target="_blank">{{t.identifier}}</a></td>
                 <td>{{t.zoomPasscode}}</td>
                 <td>{{t.identifier}}</td>
                 <td>{{t.topic}}</td>
                 <td>{{t.description}}</td>
                 <td>{{t.startTime}}</td>
                 <td>{{t.endTime}}</td>
-                <td *ngIf="t.clipID != 0"><a href="{{t.clipUrl}}" target="_blank">{{t.clipID}}</a></td>
+                <td *ngIf="t.clipID != 0">ID: <a href="{{t.clipUrl}}" target="_blank">{{t.clipID}}</a><br><button (click)="linkVideoToTicket(t)">Update</button></td>
                 <td *ngIf="t.clipID == 0"><button (click)="linkVideoToTicket(t)">Link Video</button></td>
                 <td>
-                    <input type="checkbox" *ngIf="t.ticketStatus != 'IN_PROGRESS'" (click)="updateTicketStatusToInProgress(t)">
-                    <input type="checkbox" *ngIf="t.ticketStatus == 'IN_PROGRESS'" (click)="updateTicketStatusToAcknowledged(t)" checked=true>
+                    <mat-checkbox *ngIf="t.ticketStatus != 'IN_PROGRESS'" (click)="updateTicketStatusToInProgress(t)"></mat-checkbox>
+                    <mat-checkbox *ngIf="t.ticketStatus == 'IN_PROGRESS'" (click)="updateTicketStatusToAcknowledged(t)" [checked] = true></mat-checkbox>
                 </td>
                 <td>{{t.rejectComment}}</td>
                 <td style="width: 303px;"><button mat-flat-button color="primary" (click)="updateTicketStatusToUnderReview(t)">Submit for Review</button></td>

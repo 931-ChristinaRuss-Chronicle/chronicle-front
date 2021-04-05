@@ -1,7 +1,7 @@
 <div class="page">
   <div fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center">
     <!-- Title of the page  -->
-    <h1 class="page-title" >Submit Ticket</h1>
+    <h1 class="page-title">Submit Ticket</h1>
 
     <!-- Form fields -->
     <div id="upload-form">
@@ -18,28 +18,23 @@
             [(ngModel)]="_zoomURL"
             required
             minlength="4"
-            appZoomUrlValidator="https://revature.zoom.us/rec/share"
+            pattern="https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)"
             #aZoom="ngModel"
           />
         </mat-form-field>
-        <div style="position: absolute; top:123px">
-        <div 
-          *ngIf="aZoom.invalid && (aZoom.dirty || aZoom.touched)"
-          class="alert alert-danger"
-        >
-          <div *ngIf="aZoom.errors?.required">
-            Link is required.</div>
-          <div *ngIf="aZoom.errors?.minlength">
-            
-            Link must be at least 4 characters long.
-          </div>
-          <div *ngIf="aZoom.errors?.appZoomUrlValidator">
-            Please provide a Zoom link.
+        <div style="position: absolute; top: 123px">
+          <div
+            *ngIf="aZoom.invalid && (aZoom.dirty || aZoom.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="aZoom.errors?.required">Link is required.</div>
+            <div *ngIf="aZoom.errors?.minlength">
+              Link must be at least 4 characters long.
+            </div>
+            <div *ngIf="aZoom.errors?.pattern">Please provide a Zoom link.</div>
           </div>
         </div>
       </div>
-
-    </div>
 
       <!-- PASSCODE -->
       <div fxLayoutAlign="center" fxFlexFill>
@@ -56,18 +51,18 @@
             #aPasscode="ngModel"
           />
         </mat-form-field>
-        <div style="position: absolute; top:200px">
-        <div
-          *ngIf="aPasscode.invalid && (aPasscode.dirty || aPasscode.touched)"
-          class="alert alert-danger"
-        >
-          <div *ngIf="aPasscode.errors?.required">Passcode is required.</div>
-          <div *ngIf="aPasscode.errors?.minlength">
-            Passcode must be at least 4 characters long.
+        <div style="position: absolute; top: 200px">
+          <div
+            *ngIf="aPasscode.invalid && (aPasscode.dirty || aPasscode.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="aPasscode.errors?.required">Passcode is required.</div>
+            <div *ngIf="aPasscode.errors?.minlength">
+              Passcode must be at least 4 characters long.
+            </div>
           </div>
         </div>
       </div>
-    </div>
       <!-- Batch -->
       <div fxLayoutAlign="center" fxFlexFill>
         <mat-form-field appearance="outline" class="input-field">
@@ -83,154 +78,152 @@
             #aBatch="ngModel"
           />
         </mat-form-field>
-        <div style="position: absolute; top:280px">
-        <div
-          *ngIf="aBatch.invalid && (aBatch.dirty || aBatch.touched)"
-          class="alert alert-danger"
-        >
-          <div *ngIf="aBatch.errors?.required">Batch is required.</div>
-          <div *ngIf="aBatch.errors?.minlength">
-            Batch must be at least 4 characters long.
+        <div style="position: absolute; top: 280px">
+          <div
+            *ngIf="aBatch.invalid && (aBatch.dirty || aBatch.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="aBatch.errors?.required">Batch is required.</div>
+            <div *ngIf="aBatch.errors?.minlength">
+              Batch must be at least 4 characters long.
+            </div>
           </div>
         </div>
       </div>
-    </div>
-     
 
       <!-- Table for individual clips for same zoom link video-->
       <div fxLayoutAlign="center" fxFlexFill>
-      <table>
-        <thead>
-          <tr>
-            <th>Topic</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- ADDING NEW ROW -->
-          <tr *ngFor="let t of tickets">
-            <td>
-              <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                  <mat-label for="topic">Topic</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    id="topic"
-                    name="topic"
-                    [(ngModel)]="t.topic"
-                  />
-                </mat-form-field>
-              </div>
-            </td>
-            <td>
-              <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                  <mat-label for="startTime">Starting Time</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    id="startTime"
-                    name="startTime"
-                    [(ngModel)]="t.startTime"
-                  />
-                </mat-form-field>
-              </div>
-            </td>
-            <td>
-              <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                  <mat-label for="endTime">Ending Time</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    id="endTime"
-                    name="endTime"
-                    [(ngModel)]="t.endTime"
-                  />
-                </mat-form-field>
-              </div>
-            </td>
-            <td>
-              <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                  <mat-label for="description">Description</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    id="description"
-                    name="description"
-                    [(ngModel)]="t.description"
-                  />
-                </mat-form-field>
-              </div>
-            </td>
-            <!--Hidden forms-->
-            <div [hidden]="true">
-              <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                  <mat-label for="zoomLink">Zoom link </mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    value="{{ _zoomURL }}"
-                    id="zoomLink"
-                    name="zoomLink"
-                    [(ngModel)]="t.zoomLink"
-                    (change)="onZoomUrlWritten($event)"
-                  />
-                </mat-form-field>
-              </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- ADDING NEW ROW -->
+            <tr *ngFor="let t of tickets">
+              <td>
+                <div fxLayoutAlign="center" fxFlexFill>
+                  <mat-form-field appearance="outline" class="input-field">
+                    <mat-label for="topic">Topic</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      id="topic"
+                      name="topic"
+                      [(ngModel)]="t.topic"
+                    />
+                  </mat-form-field>
+                </div>
+              </td>
+              <td>
+                <div fxLayoutAlign="center" fxFlexFill>
+                  <mat-form-field appearance="outline" class="input-field">
+                    <mat-label for="startTime">Starting Time</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      id="startTime"
+                      name="startTime"
+                      [(ngModel)]="t.startTime"
+                    />
+                  </mat-form-field>
+                </div>
+              </td>
+              <td>
+                <div fxLayoutAlign="center" fxFlexFill>
+                  <mat-form-field appearance="outline" class="input-field">
+                    <mat-label for="endTime">Ending Time</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      id="endTime"
+                      name="endTime"
+                      [(ngModel)]="t.endTime"
+                    />
+                  </mat-form-field>
+                </div>
+              </td>
+              <td>
+                <div fxLayoutAlign="center" fxFlexFill>
+                  <mat-form-field appearance="outline" class="input-field">
+                    <mat-label for="description">Description</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      id="description"
+                      name="description"
+                      [(ngModel)]="t.description"
+                    />
+                  </mat-form-field>
+                </div>
+              </td>
+              <!--Hidden forms-->
+              <div [hidden]="true">
+                <div fxLayoutAlign="center" fxFlexFill>
+                  <mat-form-field appearance="outline" class="input-field">
+                    <mat-label for="zoomLink">Zoom link </mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      value="{{ _zoomURL }}"
+                      id="zoomLink"
+                      name="zoomLink"
+                      [(ngModel)]="t.zoomLink"
+                      (change)="onZoomUrlWritten($event)"
+                    />
+                  </mat-form-field>
+                </div>
 
-              <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                  <mat-label for="passcode">Zoom passcode</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    value="{{ passcode }}"
-                    id="passcode"
-                    name="passcode"
-                    [(ngModel)]="t.zoomPasscode"
-                  />
-                </mat-form-field>
-              </div>
+                <div fxLayoutAlign="center" fxFlexFill>
+                  <mat-form-field appearance="outline" class="input-field">
+                    <mat-label for="passcode">Zoom passcode</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      value="{{ passcode }}"
+                      id="passcode"
+                      name="passcode"
+                      [(ngModel)]="t.zoomPasscode"
+                    />
+                  </mat-form-field>
+                </div>
 
-              <div fxLayoutAlign="center" fxFlexFill>
-                <mat-form-field appearance="outline" class="input-field">
-                  <mat-label for="identifier">Identifier</mat-label>
-                  <input
-                    matInput
-                    type="text"
-                    value="{{ identifier }}"
-                    id="identifier"
-                    name="identifier"
-                    [(ngModel)]="t.identifier"
-                  />
-                </mat-form-field>
+                <div fxLayoutAlign="center" fxFlexFill>
+                  <mat-form-field appearance="outline" class="input-field">
+                    <mat-label for="identifier">Identifier</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      value="{{ identifier }}"
+                      id="identifier"
+                      name="identifier"
+                      [(ngModel)]="t.identifier"
+                    />
+                  </mat-form-field>
+                </div>
               </div>
-            </div>
-            <!-- Button to delete individual ticket -->
-            <td>
-              <div fxLayoutAlign="center" fxFlexFill>
-                <button
-                  class="upload-button"
-                  style="margin-bottom:  16px; padding: 7px 0;"
-                  mat-flat-button
-                  color="primary"
-                  (click)="deleteTopic(t)"
-                >
-                  X
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <!-- Button to delete individual ticket -->
+              <td>
+                <div fxLayoutAlign="center" fxFlexFill>
+                  <button
+                    class="upload-button"
+                    style="margin-bottom: 16px; padding: 7px 0"
+                    mat-flat-button
+                    color="primary"
+                    (click)="deleteTopic(t)"
+                  >
+                    X
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
 
       <br />
       <!--  BUTTON FOR ADDING NEW ROW  -->
@@ -249,8 +242,8 @@
 
       <!--An error message after you reach limit of 30 clips-->
       <div fxLayoutAlign="center" fxFlexFill>
-      <p class="alert" [hidden]="visibility">You reached tickets limit</p>
-    </div>
+        <p class="alert" [hidden]="visibility">You reached tickets limit</p>
+      </div>
       <!-- SUBMIT BUTTON -->
       <div fxLayoutAlign="center" fxFlexFill>
         <button
@@ -263,12 +256,12 @@
           Submit
         </button>
       </div>
-      <br/> <br/>
-    <!-- Message on success-->
-      <div [hidden]="submitted" style="color:orange;text-align: center;"> 
+      <br />
+      <br />
+      <!-- Message on success-->
+      <div [hidden]="submitted" style="color: orange; text-align: center">
         Ticket(s) submitted successfully.
-    </div>
+      </div>
     </div>
   </div>
 </div>
-

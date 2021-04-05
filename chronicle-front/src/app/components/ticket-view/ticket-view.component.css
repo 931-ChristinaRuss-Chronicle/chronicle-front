@@ -2,7 +2,7 @@ a.mini_nav {
     font-size: large;
     padding: 1em;
     color: gray;
-    
+    cursor: pointer;
 }
 
 div.nav_div {

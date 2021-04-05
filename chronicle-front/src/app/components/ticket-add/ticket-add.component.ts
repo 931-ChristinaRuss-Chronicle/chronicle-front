@@ -37,13 +37,12 @@ public set topicCount(count:number) {
   this._topicCount = count;
 }
 
-public get returnTicketGetter() {
-  return this._returnTickets;
-}
+// public get returnTicketGetter() {
+//   return this._returnTickets;
+// }
 
   constructor(private ticketService:TicketService, private authService:AuthService) { }
 
- 
 
   ngOnInit(): void {
     this.authService.User.subscribe(user1 => {
@@ -53,7 +52,6 @@ public get returnTicketGetter() {
     console.log(this.user.displayName);
 
   }
-
 
   onZoomUrlWritten(event:any):boolean{
     console.log(event);
@@ -101,14 +99,36 @@ public get returnTicketGetter() {
     this._topicCount--;
   }
 
+  //Make sure that each clip got last entered link , passcode and batch
+  checkLink(){
+    this.tickets.forEach(tkt => {
+      tkt.zoomLink = this._zoomURL;
+    });
+  }
+  checkPasscode(){
+    this.tickets.forEach(tkt => {
+      tkt.zoomPasscode = this.passcode;
+    });
+  }
+  checkBatch(){
+    this.tickets.forEach(tkt => {
+      tkt.identifier = this.identifier;
+    });
+  }
+
   submitTickets() {
+    this.checkLink();
+    this.checkPasscode();
+    this.checkBatch();
+
+  
     this.ticketService.submitTickets(this.tickets).subscribe(
       (data) => {
-        this._returnTickets = data;
+        this.tickets = data;
         console.log('Successfully submitted tickets.');
         //refresh page after succsess
-        window.location.reload();
         this.submitted = false;
+        window.location.reload(),5000;
       },
       () => {
         console.log('Failure in submitting tickets.');

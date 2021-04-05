@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Ticket } from 'src/app/models/Ticket';
-import { Video } from 'src/app/models/Video';
 import { AuthService } from 'src/app/services/auth.service';
-import { MediaRetrievalService } from 'src/app/services/media-retrieval.service';
 import { TicketService } from 'src/app/services/ticket.service';
 
 @Component({
@@ -28,7 +25,7 @@ export class TicketViewComponent implements OnInit {
   displayPending:boolean = true;
   pendings_nav_color = "orange";
   accepted_nav_color = "grey";
-  errorMessage:string = "Please make sure the ticket is 'In progress' and have a edited video.";
+  errorMessage:string = "";
   hasError:boolean = false;
   tempUploadedVideo: any;
   
@@ -61,7 +58,6 @@ export class TicketViewComponent implements OnInit {
     this.ticketService.findAllTicketsByEditor().subscribe(
       (data) => {
         this.allMyTickets = data;
-        console.log(data)
       },
       () => {
         
@@ -75,7 +71,6 @@ export class TicketViewComponent implements OnInit {
 
     this.ticketService.updateTicketStatus(ticket).subscribe(
       (data) => {
-        console.log("ticket has been updated"+data)
         this.findAllMyTickets();
       },
       () => {
@@ -115,11 +110,12 @@ export class TicketViewComponent implements OnInit {
 
   updateTicketStatusToUnderReview(ticket:Ticket){
     
-    this.tempTicket = ticket;
+    
     
     if(ticket.ticketStatus == 'IN_PROGRESS' && ticket.clipID != 0){
       this.displayError(false);
       ticket.ticketStatus = "UNDER_REVIEW"
+      this.tempTicket = ticket;
       this.ticketService.updateTicketStatus(ticket).subscribe(
         (data) => {
           console.log("ticket has been updated"+data)
@@ -130,6 +126,7 @@ export class TicketViewComponent implements OnInit {
         }
       )
     }else{
+      this.errorMessage = "Please make sure the ticket is 'In progress', and it has a edited video.";
       this.displayError(true);
     }
     
@@ -143,9 +140,13 @@ export class TicketViewComponent implements OnInit {
     this.ticketService.updateClipForTicket(ticket).subscribe(
       (data) => {
         console.log("Ticket updated");
+        this.displayError(false);
+        this.findAllMyTickets();
       },
       () => {
-        console.log("error");
+        this.errorMessage = "Unable to link a video. Make sure the 'title' of the video matches the 'topic'";
+        this.displayError(true);
+        this.findAllMyTickets();
       }
     )
   }
