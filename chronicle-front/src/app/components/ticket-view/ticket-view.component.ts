@@ -19,18 +19,19 @@ export class TicketViewComponent implements OnInit {
     });
   }
 
+  //tempTicket is only for testing
+  tempTicket:Ticket = new Ticket(0,'0','0',new Date(),new Date(),"", "", "", "","", "", 0, "", "", "","");
+
+  //variables
   user: any;
   allPendingTickets: Ticket[] = [];
   allMyTickets: Ticket[] = [];
-  tempTicket:Ticket = new Ticket(0,'0','0',new Date(),new Date(),"", "", "", "","", "", 0, "", "", "","");
   displayPending:boolean = true;
   pendings_nav_color = "orange";
   accepted_nav_color = "grey";
-  errorMessage:string = "";
-  hasError:boolean = false;
-  tempUploadedVideo: any;
+  SnackBarMessage:string = "";
   
-
+  //Toggle the table displayed and change the color of the mini nav bar
   toggleDisplayPending(b:boolean){
     this.displayPending = b;
     if(b){
@@ -66,6 +67,7 @@ export class TicketViewComponent implements OnInit {
     )
   }
 
+  //this is called when the user click on the check box of 'In progess' if it's checked
   updateTicketStatusToAcknowledged(ticket:Ticket){
     ticket.ticketStatus = "ACKNOWLEDGED"
     this.tempTicket = ticket;
@@ -73,6 +75,8 @@ export class TicketViewComponent implements OnInit {
     this.ticketService.updateTicketStatus(ticket).subscribe(
       (data) => {
         this.findAllMyTickets();
+        this.SnackBarMessage = "The status has changed to 'acknowledged'.";
+        this.displaySnackBar();
       },
       () => {
         console.log("Ticket Update Failed")
@@ -81,11 +85,14 @@ export class TicketViewComponent implements OnInit {
     )
   }
 
+  //this is called when the user clicks on 'accept'
   acceptTicket(ticket:Ticket){
     ticket.ticketStatus = "ACKNOWLEDGED"
     this.ticketService.updateTicketStatus(ticket).subscribe(
       (data) => {
         this.findAllPendingTickets()
+        this.SnackBarMessage = "The ticket has been accepted.";
+        this.displaySnackBar();
       },
       () => {
         this.findAllPendingTickets()
@@ -93,14 +100,16 @@ export class TicketViewComponent implements OnInit {
     )
   }
 
+  //this is called when the user clicks on the check box of 'In progess' if it's unchecked
   updateTicketStatusToInProgress(ticket:Ticket){
     ticket.ticketStatus = "IN_PROGRESS"
     this.tempTicket = ticket;
 
     this.ticketService.updateTicketStatus(ticket).subscribe(
       (data) => {
-        console.log("ticket has been updated"+data)
         this.findAllMyTickets();
+        this.SnackBarMessage = "The status has changed to 'in progress'.";
+        this.displaySnackBar();
       },
       () => {
         console.log("Ticket Update Failed")
@@ -109,9 +118,10 @@ export class TicketViewComponent implements OnInit {
     )
   }
 
+  //this is called when the user clicks on 'submit for review'
   updateTicketStatusToUnderReview(ticket:Ticket){
     if(ticket.ticketStatus == 'IN_PROGRESS' && ticket.clipID != 0){
-      this.displayError();
+      this.displaySnackBar();
       ticket.ticketStatus = "UNDER_REVIEW"
       this.tempTicket = ticket;
       this.ticketService.updateTicketStatus(ticket).subscribe(
@@ -124,36 +134,36 @@ export class TicketViewComponent implements OnInit {
         }
       )
     }else{
-      this.errorMessage = "Please make sure the ticket is 'In progress', and it has a edited video.";
-      this.displayError();
+      this.SnackBarMessage = "Please make sure the ticket is 'In progress', and it has a edited video.";
+      this.displaySnackBar();
     }
     
   }
 
-  displayError(){
-    this.matSnackBar.open(this.errorMessage, "close")
+  displaySnackBar(){
+    this.matSnackBar.open(this.SnackBarMessage, "close")
   }
 
 
-
+  //this is called when the user clicks on 'link video' or 'update'
   linkVideoToTicket(ticket:Ticket, b:boolean){
     
     this.ticketService.updateClipForTicket(ticket).subscribe(
       (data) => {
         console.log("Ticket updated");
-        this.displayError();
+        this.displaySnackBar();
         this.findAllMyTickets();
+
         if(b){
-          this.errorMessage = "The video has been updated!";
+          this.SnackBarMessage = "The video has been updated!";
         }else{
-          this.errorMessage = "A video has been linked to this ticket!";
+          this.SnackBarMessage = "A video has been linked to this ticket!";
         }
-        
-        this.displayError();
+        this.displaySnackBar();
       },
       () => {
-        this.errorMessage = "Unable to link a video. Make sure the 'title' of the video matches the 'topic'";
-        this.displayError();
+        this.SnackBarMessage = "Unable to link a video. Make sure the 'title' of the video matches the 'topic' of this ticket";
+        this.displaySnackBar();
         this.findAllMyTickets();
       }
     )

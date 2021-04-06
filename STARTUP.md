@@ -52,3 +52,6 @@ The storage service should now be up and running from the container through loca
 ### DevOps Documentation
 
 Documentation regarding DevOps can be found [here](https://docs.google.com/document/d/1BkgVkMa7aWO8WY3zZo_ClPPBCZQtGbkbkL5iU0HmvU8/edit?usp=sharing).
+
+### Iteration-3 DevOps Documentation
+Documentation regarding iteration-3 DevOps can be found [here](https://docs.google.com/document/d/1yS1B6yJTXlus4jB5eVr14JWeVVyMZACEmCzwt_6T2Io/edit).

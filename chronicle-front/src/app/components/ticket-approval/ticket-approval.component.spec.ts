@@ -84,4 +84,5 @@ describe('TicketApprovalComponent', () => {
     expect(component.tempTicket.ticketStatus).toEqual("IN_PROGRESS");
     expect(component.rejectComment).toEqual("bad clip");
   })
+  //The tests are failing because of the MatSnackBar module, if we remove the MatSnackBar module the tests should pass.
 });
