@@ -16,6 +16,7 @@
         <table *ngIf = "displayWaitingForReview">
                 <thead>
                     <tr class="shadow">
+                        <th> </th>
                         <th>Ticket ID</th>
                         <th>Date Issued</th>
                         <th>Date Accepted</th>
@@ -29,6 +30,8 @@
                     </thead>
                     <tbody>
                         <tr class="shadow" *ngFor = "let ticket of underReviewTickets; let i = index">
+                            <td> <button mat-flat-button color="primary" class = "deactivate" (click)="deactivateButtonClick(i)">X</button><br>
+                                <button  class = "deactivate" (click)="deactivateTicket(ticket,i)" *ngIf = "deactivateClick[i]" >Confirm Deactivate</button>  </td>
                             <td> {{ticket.ticketID}} <input name="ticket.ticketID" [(ngModel)]="ticket.ticketID" type="hidden"></td>
                             <td> {{ticket.dateIssued | date: 'shortDate'}} <input name="ticket.dateIssued" [(ngModel)]="ticket.dateIssued" type="hidden"></td>
                             <td> {{ticket.dateAccepted | date: 'shortDate'}} <input name="ticket.dateAccepted" [(ngModel)]="ticket.dateAccepted" type="hidden"></td>

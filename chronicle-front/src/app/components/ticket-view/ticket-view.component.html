@@ -60,8 +60,7 @@
                 <th>Edited Video</th>
                 <th>In Progress</th>
                 <th>Reason for Rejection</th>
-                <th *ngIf="hasError" style="color: red; text-align: center; width: 303px;">{{errorMessage}}</th>
-                <th *ngIf="!hasError" style="color: red; text-align: center; width: 303px;"></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -76,8 +75,8 @@
                 <td>{{t.description}}</td>
                 <td>{{t.startTime}}</td>
                 <td>{{t.endTime}}</td>
-                <td *ngIf="t.clipID != 0">ID: <a href="{{t.clipUrl}}" target="_blank">{{t.clipID}}</a><br><button (click)="linkVideoToTicket(t)">Update</button></td>
-                <td *ngIf="t.clipID == 0"><button (click)="linkVideoToTicket(t)">Link Video</button></td>
+                <td *ngIf="t.clipID != 0">ID: <a href="{{t.clipUrl}}" target="_blank">{{t.clipID}}</a><br><button (click)="linkVideoToTicket(t, true)">Update</button></td>
+                <td *ngIf="t.clipID == 0"><button (click)="linkVideoToTicket(t, false)">Link Video</button></td>
                 <td>
                     <mat-checkbox *ngIf="t.ticketStatus != 'IN_PROGRESS'" (click)="updateTicketStatusToInProgress(t)"></mat-checkbox>
                     <mat-checkbox *ngIf="t.ticketStatus == 'IN_PROGRESS'" (click)="updateTicketStatusToAcknowledged(t)" [checked] = true></mat-checkbox>

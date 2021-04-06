@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Ticket } from 'src/app/models/Ticket';
 import { AuthService } from 'src/app/services/auth.service';
 import { TicketService } from 'src/app/services/ticket.service';
@@ -10,7 +11,7 @@ import { TicketService } from 'src/app/services/ticket.service';
 })
 export class TicketViewComponent implements OnInit {
 
-  constructor(private ticketService: TicketService, private authService:AuthService) { }
+  constructor(private ticketService: TicketService, private authService:AuthService, private matSnackBar: MatSnackBar) { }
   ngOnInit(): void {
     this.findAllPendingTickets();
     this.authService.User.subscribe(user1 => {
@@ -109,11 +110,8 @@ export class TicketViewComponent implements OnInit {
   }
 
   updateTicketStatusToUnderReview(ticket:Ticket){
-    
-    
-    
     if(ticket.ticketStatus == 'IN_PROGRESS' && ticket.clipID != 0){
-      this.displayError(false);
+      this.displayError();
       ticket.ticketStatus = "UNDER_REVIEW"
       this.tempTicket = ticket;
       this.ticketService.updateTicketStatus(ticket).subscribe(
@@ -127,25 +125,35 @@ export class TicketViewComponent implements OnInit {
       )
     }else{
       this.errorMessage = "Please make sure the ticket is 'In progress', and it has a edited video.";
-      this.displayError(true);
+      this.displayError();
     }
     
   }
 
-  displayError(b:boolean){
-    this.hasError = b;
+  displayError(){
+    this.matSnackBar.open(this.errorMessage, "close")
   }
 
-  linkVideoToTicket(ticket:Ticket){
+
+
+  linkVideoToTicket(ticket:Ticket, b:boolean){
+    
     this.ticketService.updateClipForTicket(ticket).subscribe(
       (data) => {
         console.log("Ticket updated");
-        this.displayError(false);
+        this.displayError();
         this.findAllMyTickets();
+        if(b){
+          this.errorMessage = "The video has been updated!";
+        }else{
+          this.errorMessage = "A video has been linked to this ticket!";
+        }
+        
+        this.displayError();
       },
       () => {
         this.errorMessage = "Unable to link a video. Make sure the 'title' of the video matches the 'topic'";
-        this.displayError(true);
+        this.displayError();
         this.findAllMyTickets();
       }
     )

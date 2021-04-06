@@ -7,6 +7,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TicketAddComponent } from './ticket-add.component';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { FormsModule } from '@angular/forms';
 
 export class MockTicketService extends TicketService{
   submitTickets(tickets:Ticket[]):Observable<Ticket[]>{
@@ -28,7 +30,7 @@ describe('TicketAddComponent', () => {
     
     await TestBed.configureTestingModule({
       declarations: [ TicketAddComponent ],
-      imports:[HttpClientTestingModule, RouterTestingModule, AngularFireModule.initializeApp(environment.firebaseConfig)],
+      imports:[HttpClientTestingModule, RouterTestingModule, AngularFireModule.initializeApp(environment.firebaseConfig), MatSnackBarModule],
       providers:[{provide: TicketService, useClass:MockTicketService}]
     })
     .compileComponents();
@@ -45,8 +47,9 @@ describe('TicketAddComponent', () => {
   });
 
   it('should validate Zoom URL', () => {
-    let url:string = 'https://revature.zoom.us/rec/share/thdhdehdethyjyj';
-    expect(component.zoomUrlValidator(url)).toBeTruthy();
+    component._zoomURL = 'https://revature.zoom.us/rec/share/thdhdehdethyjyj';
+    component.zoomUrlValidator();
+    expect(component.globalZoomUrl).toBeTruthy();
   });
 
   it('should validate time stamps by order', () => {
@@ -58,7 +61,7 @@ describe('TicketAddComponent', () => {
   it('should validate time stamps by format', () => {
     let startTimeTest:string = '99:54:99';
     let endTimeTest:string = '00:06:43';
-    expect(component.timeStampFormatValidator(startTimeTest,endTimeTest)).toBeFalsy();
+    expect(component.timeStampFormatValidator(startTimeTest)).toBeFalsy();
   });
 
   it('should increment row count through add more button click', () => {

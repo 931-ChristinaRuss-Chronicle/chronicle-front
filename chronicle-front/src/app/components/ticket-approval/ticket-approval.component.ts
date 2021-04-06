@@ -18,6 +18,7 @@ export class TicketApprovalComponent implements OnInit {
   inProgress_nav_color = "grey";
 
   clicked:boolean[] = [];
+  deactivateClick:boolean[] = [];
 
   tempTicket:Ticket = new Ticket(0,'0','0',new Date(),new Date(),"ticket", "", "", "","", "", 0, "", "", "","");
   rejectComment:string = "";
@@ -26,6 +27,11 @@ export class TicketApprovalComponent implements OnInit {
   //Messages for snackbar
   approveMessage:string = "Must watch Edited Clip Before Approving Ticket";
   rejectMessage:string = "Must enter a comment to reject ticket";
+  approveAfterMessage:string = "Successfully Accepted Clip";
+  rejectAfterMessage:string = "Successfully Rejected Clip";
+  deactivateMessage:string = "Click Confirm Deactivate Button to Deactivate Ticket";
+  deactivateAfterMessage:string = "Successfully Deactivated Clip";
+
   action:string = "Close";
 
   constructor(private ticketService: TicketService,private _snackBar: MatSnackBar) { }
@@ -57,6 +63,7 @@ export class TicketApprovalComponent implements OnInit {
         this.underReviewTickets = data;
         for(let i=0; i<this.underReviewTickets.length; i++){
           this.clicked.push(false);
+          this.deactivateClick.push(false);
         }
       },
       () =>{
@@ -86,6 +93,7 @@ export class TicketApprovalComponent implements OnInit {
     if(this.clicked[i]){
       this.ticketService.approveTicket(ticket).subscribe(
       (data)=>{
+        this.openSnackBar(this.approveAfterMessage,this.action);
         console.log("ticket has been updated")
         this.findUnderReviewTickets();
       },
@@ -96,7 +104,7 @@ export class TicketApprovalComponent implements OnInit {
     this.clicked[i] =false; 
     }else{
       //if trainer doesnt click link snackbar message is sent
-      this.openApproveSnackBar(this.approveMessage,this.action);
+      this.openSnackBar(this.approveMessage,this.action);
     }
   }
 
@@ -107,10 +115,11 @@ export class TicketApprovalComponent implements OnInit {
 
     //Checks to see if comment box is empty else trainer gets a sandbar message
     if(ticket.rejectComment==""){
-      this.openRejectSnackBar(this.rejectMessage,this.action);
+      this.openSnackBar(this.rejectMessage,this.action);
     }else{
       this.ticketService.rejectTicket(ticket).subscribe(
         (data)=>{
+          this.openSnackBar(this.rejectAfterMessage,this.action);
           console.log("ticket has been updated")
           this.findUnderReviewTickets();
         },
@@ -122,18 +131,37 @@ export class TicketApprovalComponent implements OnInit {
 
   }
 
+  deactivateTicket(ticket:Ticket, i:number){
+    ticket.ticketStatus = "DEACTIVATED";
+    this.ticketService.deactivateTicket(ticket).subscribe(
+      (data)=>{
+        this.openSnackBar(this.deactivateAfterMessage,this.action);
+        console.log("ticket has been updated")
+        this.findUnderReviewTickets();
+      },
+      ()=>{
+
+      }
+    )
+      this.deactivateClick[i]=false;
+  }
+
   linkedClick(i:number){
     this.clicked[i] = true;
   }
 
-  openRejectSnackBar(message: string, action: string) {
+
+  deactivateButtonClick(i:number){
+    this.openSnackBar(this.deactivateMessage,this.action);
+    this.deactivateClick[i] = true;
+  }
+
+  openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 2000,
     });
   }
-  openApproveSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
-    });
-  }
+  
 }
+
+

@@ -26,3 +26,6 @@ th {
     text-align: center;
   }
 
+button.deactivate{
+    margin : 2px;
+}
