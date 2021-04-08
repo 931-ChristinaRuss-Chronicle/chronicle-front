@@ -31,13 +31,15 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  //disabled
+  xit('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-  // it('should render firebase-ui login form', () => {
-  //   const firebaseUi = fixture.debugElement.nativeElement.querySelector('firebase-ui');
-  //   expect(firebaseUi).toBeDefined();
-  // });
+  //disabled
+  xit('should render firebase-ui login form', () => {
+    const firebaseUi = fixture.debugElement.nativeElement.querySelector('firebase-ui');
+    expect(firebaseUi).toBeDefined();
+  });
 
 });

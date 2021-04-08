@@ -15,7 +15,7 @@ export class TicketViewComponent implements OnInit {
   ngOnInit(): void {
     this.findAllPendingTickets();
     this.authService.User.subscribe(user1 => {
-      this.user = user1;
+      this.LoggedInUser = user1;
     });
   }
 
@@ -23,7 +23,7 @@ export class TicketViewComponent implements OnInit {
   tempTicket:Ticket = new Ticket(0,'0','0',new Date(),new Date(),"", "", "", "","", "", 0, "", "", "","");
 
   //variables
-  user: any;
+  LoggedInUser: any;
   allPendingTickets: Ticket[] = [];
   allMyTickets: Ticket[] = [];
   displayPending:boolean = true;
@@ -32,9 +32,9 @@ export class TicketViewComponent implements OnInit {
   SnackBarMessage:string = "";
   
   //Toggle the table displayed and change the color of the mini nav bar
-  toggleDisplayPending(b:boolean){
-    this.displayPending = b;
-    if(b){
+  toggleDisplayPending(displayPending:boolean){
+    this.displayPending = displayPending;
+    if(this.displayPending){
       this.findAllPendingTickets();
       this.pendings_nav_color = "orange";
       this.accepted_nav_color = "grey"
@@ -45,13 +45,15 @@ export class TicketViewComponent implements OnInit {
     }
   }
 
+  //this is called when the component is in
   findAllPendingTickets(){
     this.ticketService.findAllPendingTickets().subscribe(
       (data) => {
         this.allPendingTickets = data;
       },
       () => {
-        
+        this.SnackBarMessage = "Error occurred. Unable to get data.";
+        this.displaySnackBar();
       }
     )
   }
@@ -62,7 +64,8 @@ export class TicketViewComponent implements OnInit {
         this.allMyTickets = data;
       },
       () => {
-        
+        this.SnackBarMessage = "Error occurred. Unable to get data.";
+        this.displaySnackBar();
       }
     )
   }
@@ -79,7 +82,8 @@ export class TicketViewComponent implements OnInit {
         this.displaySnackBar();
       },
       () => {
-        console.log("Ticket Update Failed")
+        this.SnackBarMessage = "Ticket Update Failed.";
+        this.displaySnackBar();
         this.findAllMyTickets();
       }
     )
@@ -88,6 +92,7 @@ export class TicketViewComponent implements OnInit {
   //this is called when the user clicks on 'accept'
   acceptTicket(ticket:Ticket){
     ticket.ticketStatus = "ACKNOWLEDGED"
+    ticket.editorID = this.LoggedInUser.uid;
     this.ticketService.updateTicketStatus(ticket).subscribe(
       (data) => {
         this.findAllPendingTickets()
@@ -95,6 +100,8 @@ export class TicketViewComponent implements OnInit {
         this.displaySnackBar();
       },
       () => {
+        this.SnackBarMessage = "Error occurred. Unable to accept ticket.";
+        this.displaySnackBar();
         this.findAllPendingTickets()
       }
     )
@@ -112,7 +119,8 @@ export class TicketViewComponent implements OnInit {
         this.displaySnackBar();
       },
       () => {
-        console.log("Ticket Update Failed")
+        this.SnackBarMessage = "Ticket Update Failed.";
+        this.displaySnackBar();
         this.findAllMyTickets();
       }
     )
@@ -126,15 +134,18 @@ export class TicketViewComponent implements OnInit {
       this.tempTicket = ticket;
       this.ticketService.updateTicketStatus(ticket).subscribe(
         (data) => {
-          console.log("ticket has been updated"+data)
+          this.SnackBarMessage = "Ticket has been submited.";
+          this.displaySnackBar();
           this.findAllMyTickets();
         },
         () => {
+          this.SnackBarMessage = "Ticket Update Failed.";
+          this.displaySnackBar();
           this.findAllMyTickets();
         }
       )
     }else{
-      this.SnackBarMessage = "Please make sure the ticket is 'In progress', and it has a edited video.";
+      this.SnackBarMessage = "Please make sure the ticket is 'In progress', and it has a edited video linked.";
       this.displaySnackBar();
     }
     
@@ -150,7 +161,6 @@ export class TicketViewComponent implements OnInit {
     
     this.ticketService.updateClipForTicket(ticket).subscribe(
       (data) => {
-        console.log("Ticket updated");
         this.displaySnackBar();
         this.findAllMyTickets();
 

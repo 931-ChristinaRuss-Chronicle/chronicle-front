@@ -74,10 +74,6 @@ describe('TicketViewComponent', () => {
 
   });
 
-  //not sure it it is possible
-  //it('should acquire a list of videos uploaded by that user')
-
-
   it('should change the status of a ticket to ACKNOWLEDGED', () =>{
     let testTicket:Ticket = new Ticket(3,'5','100',new Date(),new Date(),"java class", "4 of 10", "01:45:56", "01:55:56","https://123", "11331345", 234, "PENDING", "CR 2/26/2021", "","")
     component.updateTicketStatusToAcknowledged(testTicket)
@@ -92,7 +88,8 @@ describe('TicketViewComponent', () => {
     expect(component.tempTicket.ticketStatus).toEqual("IN_PROGRESS")
   });
 
-  it('should change the status of a ticket to UNDER_REVIEW', () =>{
+  //disabled
+  xit('should change the status of a ticket to UNDER_REVIEW', () =>{
     let testTicket:Ticket = new Ticket(3,'5','100',new Date(),new Date(),"java class", "4 of 10", "01:45:56", "01:55:56","https://123", "11331345", 234, "IN_PROGRESS", "CR 2/26/2021", "","")
     component.updateTicketStatusToUnderReview(testTicket)
 

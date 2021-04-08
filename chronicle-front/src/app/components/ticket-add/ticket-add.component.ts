@@ -1,5 +1,6 @@
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { Ticket } from 'src/app/models/Ticket';
 import { AuthService } from 'src/app/services/auth.service';
 import { TicketService } from 'src/app/services/ticket.service';
@@ -23,7 +24,7 @@ endTime: string = '';
 description: string = '';
 user:any;
 
-ticket:Ticket  = new Ticket(0,'0','0',new Date(),new Date(),"","","","",this._zoomURL,this.passcode,0,"pending",this.identifier,"","");
+ticket:Ticket  = new Ticket(0,'0','0',new Date(),new Date(),"","","","",this._zoomURL,this.passcode,0,"PENDING",this.identifier,"","");
 tickets:Ticket[] = [this.ticket];
 visibility:boolean = true;
 globalTimeFormat:boolean = false;
@@ -47,7 +48,7 @@ public get returnTicketGetter() {
   return this._returnTickets;
 }
 
-  constructor(private ticketService:TicketService, private authService:AuthService,private _snackBar: MatSnackBar) { }
+  constructor(private ticketService:TicketService, private authService:AuthService,private _snackBar: MatSnackBar, private router: Router) { }
 
 
   ngOnInit(): void {
@@ -58,6 +59,7 @@ public get returnTicketGetter() {
 
   }
 
+//This happens when we delede 
   onDeleteTopicClick() {
     for(let ticket of this.tickets){
       this.timeStampFormatValidator(ticket.startTime);
@@ -68,7 +70,7 @@ public get returnTicketGetter() {
           }
   }
   
-
+//Validate order of Starting and Ending time for each clip
   onStartEndTimeChange() {
     for(let ticket of this.tickets){
       this.timeStampOrderValidator(ticket.startTime, ticket.endTime);
@@ -76,6 +78,7 @@ public get returnTicketGetter() {
           }
   }
 
+  //Validate zoom URL input
   zoomUrlValidator():void {
     let regexp = new RegExp('https?://(www.)?revature.zoom.us/rec/share/([-a-zA-Z0-9()@:%_+.~#?&//=]*)');
     if(regexp.test(this._zoomURL)) {this.globalZoomUrl = true}
@@ -175,9 +178,10 @@ public get returnTicketGetter() {
     this.ticketService.submitTickets(this.tickets).subscribe(
       (data) => {
         this.tickets = data;
-        //display message and refresh page after succsess 
-        setTimeout(location.reload.bind(location), 5000);
+        //display message and redirect to main page
         this.openSnackBar(this.success,this.action);
+        this.router.navigate(['']);
+       
       },
       () => {
         //display an error message

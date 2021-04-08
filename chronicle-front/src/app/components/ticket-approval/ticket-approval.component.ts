@@ -67,7 +67,7 @@ export class TicketApprovalComponent implements OnInit {
         }
       },
       () =>{
-        console.log("error in ticket approval component")
+        
       }
 
     )
@@ -80,7 +80,7 @@ export class TicketApprovalComponent implements OnInit {
          this.allSubmittedTickets = data;
        },
        ()=>{
-        console.log("error in ticket approval component")
+        
        }
      )
    } 
@@ -94,11 +94,10 @@ export class TicketApprovalComponent implements OnInit {
       this.ticketService.approveTicket(ticket).subscribe(
       (data)=>{
         this.openSnackBar(this.approveAfterMessage,this.action);
-        console.log("ticket has been updated")
         this.findUnderReviewTickets();
       },
       ()=>{
-        console.log("error in approving ticket")
+        this.openSnackBar("Error Approving Ticket", this.action);
       }
     )
     this.clicked[i] =false; 
@@ -120,11 +119,10 @@ export class TicketApprovalComponent implements OnInit {
       this.ticketService.rejectTicket(ticket).subscribe(
         (data)=>{
           this.openSnackBar(this.rejectAfterMessage,this.action);
-          console.log("ticket has been updated")
           this.findUnderReviewTickets();
         },
         ()=>{
-          
+          this.openSnackBar("Error Rejecting Ticket", this.action);
         }
       )
     }
@@ -136,11 +134,10 @@ export class TicketApprovalComponent implements OnInit {
     this.ticketService.deactivateTicket(ticket).subscribe(
       (data)=>{
         this.openSnackBar(this.deactivateAfterMessage,this.action);
-        console.log("ticket has been updated")
         this.findUnderReviewTickets();
       },
       ()=>{
-
+        this.openSnackBar("Error Deactivating Ticket",this.action);
       }
     )
       this.deactivateClick[i]=false;

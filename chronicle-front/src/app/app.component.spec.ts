@@ -22,22 +22,25 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  // it('should create the app', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   const app = fixture.componentInstance;
-  //   expect(app).toBeTruthy();
-  // });
+  //disabled
+  xit('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
 
-  // it(`should have as title 'chronicle-front'`, () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   const app = fixture.componentInstance;
-  //   expect(app.title).toEqual('chronicle-front');
-  // });
+  //disabled
+  xit(`should have as title 'chronicle-front'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('chronicle-front');
+  });
 
-  // it('should render login component', () => {
-  //   const fixture = TestBed.createComponent(LoginComponent);
-  //   fixture.detectChanges();
-  //   const login = fixture.componentInstance;
-  //   expect(login).toBeTruthy();
-  // });
+  //disabled
+  xit('should render login component', () => {
+    const fixture = TestBed.createComponent(LoginComponent);
+    fixture.detectChanges();
+    const login = fixture.componentInstance;
+    expect(login).toBeTruthy();
+  });
 });

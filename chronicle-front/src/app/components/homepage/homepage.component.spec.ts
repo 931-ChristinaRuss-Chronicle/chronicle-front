@@ -38,9 +38,10 @@ describe('HomepageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should navigate on click - videos', () => {
-  //   const videosLink = fixture.debugElement.nativeElement.querySelector('#browse-videos');
-  //   videosLink.click();
-  //   expect(navigateSpy).toHaveBeenCalledWith(["/videos"]);
-  // });
+  //disabled
+  xit('should navigate on click - videos', () => {
+    const videosLink = fixture.debugElement.nativeElement.querySelector('#browse-videos');
+    videosLink.click();
+    expect(navigateSpy).toHaveBeenCalledWith(["/videos"]);
+  });
 });

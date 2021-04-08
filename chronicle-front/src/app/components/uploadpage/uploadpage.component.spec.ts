@@ -30,7 +30,8 @@ describe('UploadpageComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  //disabled
+  xit('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
